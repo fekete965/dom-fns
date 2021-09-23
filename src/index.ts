@@ -254,3 +254,59 @@ class EasyDom implements iEasyDom {
   public make = (): EasyDom => new EasyDom({ ...extractInitialValues(this) })
 }
 
+class EasyDomAnchor extends EasyDom implements iEasyDomAnchor  {
+  href?: string
+  target?: AnchorTarget
+
+  constructor(InitialValues?: AnchorInitialValues) {
+    super(InitialValues)
+
+    this.href = InitialValues?.href
+    this.target = InitialValues?.target
+    this.element = InitialValues?.element || makeElement('a')
+
+    updateAnchorElement(this)
+  }
+
+  removeHref = (): iEasyDomAnchor => {
+    if (isNotDefined(this.href)) {
+      console.warn('href property is already empty. The same object has been returned.')
+      return this
+    }
+    
+    return new EasyDomAnchor({ ...extractAnchorInitialValues(this), href: undefined })
+  }
+
+  removeTarget = (): iEasyDomAnchor => {
+    if (isNotDefined(this.target)) {
+      console.warn('target property is already empty. The same object has been returned.')
+      return this
+    }
+
+    return new EasyDomAnchor({ ...extractAnchorInitialValues(this), target: undefined })
+  }
+
+  withHref = (href: string): iEasyDomAnchor => {
+    if (isNotDefined(href)) {
+      throw new Error(`withHref is missing an argument. Please provide a string.`)
+    }
+
+    if (!isString(href)) {
+      throw new Error(`withHref received an unsupported type.`)
+    }
+
+    return new EasyDomAnchor({ ...extractAnchorInitialValues(this), href })
+  }
+
+  withTarget = (target: AnchorTarget): iEasyDomAnchor => {
+    if (isNotDefined(target)) {
+      throw new Error(`withTarget is missing an argument. Please provide a string.`)
+    }
+
+    if (targetList.findIndex(t => t === target) === -1) {
+      throw new Error(`withTarget only accepts the following arguments: '_self', '_blank', '_parent', '_top'`)
+    }
+
+    return new EasyDomAnchor({ ...extractAnchorInitialValues(this), target })
+  }
+}
