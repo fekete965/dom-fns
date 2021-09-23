@@ -2,68 +2,15 @@
   type AllowedElement =  'a' | 'article' | 'aside' | 'details' | 'b' | 'br' | 'caption' | 'dialog' | 'div' | 'footer' | 'form' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'header' | 'img' | 'label' | 'li' | 'nav' | 'main' | 'ol' | 'p' | 'section' | 'span' | 'strong' | 'table' | 'tbody' | 'td' | 'tfoot' | 'th' | 'thead' | 'tr' | 'ul'
   const allowedElementList: AllowedElement[] = ['a', 'article', 'aside', 'details', 'b', 'br', 'caption', 'dialog', 'div', 'footer', 'form', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'header', 'img', 'label', 'li', 'nav', 'main', 'ol', 'p', 'section', 'span', 'strong', 'table', 'tbody', 'td', 'tfoot', 'th', 'thead', 'tr', 'ul']
 
-  // HELPERS
-  const isNotDefined = <T>(val: T): boolean => val === undefined || val === null
-
-  const isString = <T>(val: T): boolean => typeof val === 'string'
-
-  const isStringTuple = (tuple: DataAttribute): boolean => tuple.length === 2 && isString(tuple[0]) && isString(tuple[1])
-
-  const removeInvalidValues = (data: DataAttribute[]): DataAttribute[] => data.filter(d => isStringTuple(d))
-
-  const extractInitObject = (entity: easyDom): InitObject => ({
-    classNames: [...entity.classNames],
-    dataAttributes: [...entity.dataAttributes],
-    element: entity.element ? makeElement(entity.element.localName as AllowedElement) : null,
-    id: entity.id,
-    innerText: entity.innerText,
-  })
-
-  const getValidClasses = (classNames?: ClassNames): string[] => {
-    if (isNotDefined(classNames)) return []
-    if(Array.isArray(classNames)) return classNames
-    if(typeof classNames === 'string') return [classNames]
-    throw new Error(`${classNames} is not a valid class type.`)
-  }
-  
-  const getValidAttributes = (data?: DataAttributes): DataAttribute[] => {
-    if (isNotDefined(data) || Array.isArray(data) && data.length === 0) return []
-    if (!Array.isArray(data && data[0]) && isStringTuple(data as DataAttribute)) return [data as DataAttribute]
-    if (data && Array.isArray(data[0])) {
-      return removeInvalidValues(data as DataAttribute[])
-    }
-    throw new Error(`${data} is not a valid data-attribute type`)
   }
 
-  const makeElement = (elStr: AllowedElement): HTMLElement => {
-    if (!allowedElementList.includes(elStr)) {
-      throw new Error(`${elStr} is not recognisable HTML element.`)
     }
 
-    return document.createElement(elStr)
-  }
 
-  const removeFromArray = <T>(array: T[], target: T): T[] => array.filter(a => a !== target)
 
-  const mergeAttrArray = (attrArray: DataAttribute[], newAttr: DataAttribute): DataAttribute[] => {
-    const isExistingAttr = attrArray.findIndex(attr => attr[0] === newAttr[0])
-    const index = isExistingAttr === -1 ? attrArray.length : isExistingAttr
 
-    return Object.assign([], attrArray, { [index]: newAttr })
-  }
 
-  const updateElement = (entity: easyDom) => {
-    const { classNames, dataAttributes, element, id, innerText, } = entity
-
-    if (element) {
-      if (id) element.id = id
-      if (innerText) element.innerText = innerText
-      classNames.forEach(c => element.classList.add(c))
-      dataAttributes.forEach(([key, data]) => element.setAttribute(`data-${key}`, data))
     }
-  }
-
-  // ------------------------------------------- //
 
   type ClassNames = string | string[]
 
