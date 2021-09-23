@@ -12,17 +12,6 @@
 
     }
 
-  type ClassNames = string | string[]
-
-  type DataAttribute = [string, string]
-  type DataAttributes = DataAttribute | DataAttribute[]
-
-  interface InitObject {
-    classNames?: ClassNames
-    dataAttributes: DataAttributes
-    element: HTMLElement | null
-    id?: string
-    innerText?: string
   }
 
   class easyDom {
