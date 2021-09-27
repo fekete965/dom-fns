@@ -127,6 +127,10 @@ class EasyDom implements iEasyDom {
       throw new Error("withId is missing an argument. Please provide a single id.")
     }
 
+    if (isString(id)) {
+      throw new Error(`withId received the following argument: ${id}. Please provide a string.`)
+    }
+
     return new EasyDom({ ...extractInitialValues(this), id })
   }
 
@@ -173,6 +177,10 @@ class EasyDom implements iEasyDom {
       throw new Error("removeDataAttribute is missing an argument. Please provide a single data attribute key.")
     }
 
+    if (isString(key)) {
+      throw new Error(`removeDataAttribute received the following argument: ${key}. Please provide a string.`)
+    }
+
     const newDataAttributes = this.dataAttributes.filter(attr => attr[0] !== key)
 
     if (newDataAttributes.length === this.dataAttributes.length) {
@@ -193,9 +201,13 @@ class EasyDom implements iEasyDom {
   }
 
   public withInnerText = (innerText: string, concat: boolean = false): EasyDom => {
-      if (isNotDefined(innerText)) {
-        throw new Error(`withInnerText is missing an argument. Please provide a string.`)
-      }
+    if (isNotDefined(innerText)) {
+      throw new Error(`withInnerText is missing an argument. Please provide a string.`)
+    }
+
+    if (isString(innerText)) {
+      throw new Error(`withInnerText received the following argument: ${innerText}. Please provide a string.`)
+    }
 
     const _innerText = concat ? this.innerText + innerText : innerText
     return new EasyDom({ ...extractInitialValues(this), innerText: _innerText })
@@ -217,6 +229,10 @@ class EasyDom implements iEasyDom {
       throw new Error("appendTo is missing an argument. Please provide a string (query) as the argument.")
     }
 
+    if (isString(query)) {
+      throw new Error(`appendTo received the following argument: ${query}. Please provide a string.`)
+    }
+
     if (!this.element) {
       throw new Error("There is no element that could be appended.");
     }
@@ -236,6 +252,10 @@ class EasyDom implements iEasyDom {
       throw new Error("prependTo is missing an argument. Please provide a string (query) as the argument.")
     }
 
+    if (isString(query)) {
+      throw new Error(`prependTo received the following argument: ${query}. Please provide a string.`)
+    }
+
     if (!this.element) {
       throw new Error("There is no element that could be prepended.");
     }
@@ -253,16 +273,16 @@ class EasyDom implements iEasyDom {
   public make = (): EasyDom => new EasyDom({ ...extractInitialValues(this) })
 }
 
-class EasyDomAnchor extends EasyDom implements iEasyDomAnchor  {
+class EasyDomAnchor extends EasyDom implements iEasyDomAnchor {
   href?: string
   target?: AnchorTarget
 
-  constructor(InitialValues?: AnchorInitialValues) {
-    super(InitialValues)
+  constructor(initialValues?: AnchorInitialValues) {
+    super(initialValues)
 
-    this.href = InitialValues?.href
-    this.target = InitialValues?.target
-    this.element = InitialValues?.element || makeElement('a')
+    this.href = initialValues?.href
+    this.target = initialValues?.target
+    this.element = initialValues?.element || makeElement('a')
 
     updateAnchorElement(this)
   }
@@ -291,7 +311,7 @@ class EasyDomAnchor extends EasyDom implements iEasyDomAnchor  {
     }
 
     if (!isString(href)) {
-      throw new Error(`withHref received an unsupported type.`)
+      throw new Error(`withHref received the following argument: ${href}. Please provide a string.`)
     }
 
     return new EasyDomAnchor({ ...extractAnchorInitialValues(this), href })
