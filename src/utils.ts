@@ -10,7 +10,9 @@ export const removeInvalidValues = (data: StringTuple[]): StringTuple[] => data.
 
 export const extractInitObject = (entity: iEasyDom): InitialValues => ({
   classNames: [...entity.classNames],
+  // TODO: make it copy the array of array recursively
   dataAttributes: [...entity.dataAttributes],
+  // TODO: find a better way doing this ---> user nodeName to determine the element type!!!
   element: entity.element ? makeElement(entity.element.localName as AllowedElement) : null,
   id: entity.id,
   innerText: entity.innerText,
@@ -25,6 +27,24 @@ export const extractInitObjectAnchor = (entity: iEasyDomAnchor): AnchorInitialVa
   innerText: entity.innerText,
   target: entity?.target,
 })
+
+export const extractInitObjectImg = (entity: iEasyDomImg): ImgInitialValues => ({
+  alt: entity.alt,
+  classNames: [...entity.classNames],
+  dataAttributes: [...entity.dataAttributes],
+  element: entity.element ? makeElement(entity.element.localName as AllowedElement) : null,
+  height: entity.height,
+  id: entity.id,
+  innerText: entity.innerText,
+  src: entity.src,
+  width: entity.width,
+})
+
+export const getWidthOrHeight = (arg: string | number): number => {
+  if (typeof arg === 'string') return parseInt(arg, 10)
+  if (typeof arg === 'number') return arg
+  throw new Error(`${arg} is not a supported with/height type.`);
+}
 
 export const getValidClasses = (classNames?: ClassNames): string[] => {
   if (isNotDefined(classNames)) return []
@@ -60,22 +80,36 @@ export const mergeAttrArray = (attrArray: StringTuple[], newAttr: StringTuple): 
 }
 
 export const updateElement = (props: UpdateElementProps): void => {
-  const { classNames, dataAttributes, element, href, id, innerText, target } = props
+  const { classNames, dataAttributes, element, id, innerText } = props
 
   if (element) {
-    if (id) element.id = id
-    if (innerText) element.innerText = innerText
+    id && element.setAttribute("id", id)
+    innerText && element.setAttribute("innerText", innerText)
     classNames.forEach(c => element.classList.add(c))
     dataAttributes.forEach(([key, data]) => element.setAttribute(`data-${key}`, data))
   }
 }
 
 export const updateAnchorElement = (entity: UpdateElementProps): void => {
-  const { element, href, target, } = entity
+  const { element, href, target } = entity
 
-  updateElement(entity)
   if (element) {
-    if (href) element.setAttribute('href', href)
-    if (target) element.setAttribute('target', target)
+    updateElement(entity)
+
+    href && element.setAttribute('href', href)
+    target && element.setAttribute('target', target)
+  }
+}
+
+export const updateImgElement = (entity: UpdateElementProps): void => {
+  const { alt, element, height, src, width } = entity
+
+  if (element) {
+    updateElement(entity)
+    
+    alt && element.setAttribute('alt', alt)
+    height && element.setAttribute('height', height.toString())
+    src && element.setAttribute('src', src)
+    width && element.setAttribute('width', width.toString())
   }
 }

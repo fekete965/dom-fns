@@ -18,6 +18,13 @@ interface AnchorInitialValues extends InitialValues {
   target?: AnchorTarget
 } 
 
+interface ImgInitialValues extends InitialValues {
+  alt?: string
+  height?: number
+  src?: string
+  width?: number
+}
+
 interface iDomElements {
   a(): iEasyDomAnchor
   article(): iEasyDom
@@ -93,13 +100,40 @@ interface iEasyDomAnchor extends iEasyDom {
   withTarget(target: AnchorTarget): iEasyDomAnchor
 }
 
+interface Dimension {
+  height?: number
+  width?: number
+}
+
+interface iEasyDomImg extends iEasyDom {
+  alt?: string
+  height?: number
+  src?: string
+  width?: number
+
+  removeAlt(): iEasyDomImg
+  removeDimension(): iEasyDomImg
+  removeHeight(): iEasyDomImg
+  removeSrc(): iEasyDomImg
+  removeWidth(): iEasyDomImg
+  withAlt(alt: string): iEasyDomImg
+  withDimension(dimension: Dimension): iEasyDomImg
+  withHeight(height: number): iEasyDomImg
+  withSrc(alt: string): iEasyDomImg
+  withWidth(width: number): iEasyDomImg
+}
+
 interface UpdateElementProps {
   classNames: string[]
   dataAttributes: StringTuple[]
   element: HTMLElement | null
 
+  alt?: string
+  height?: number | string
   href?: string
   id?: string
   innerText?: string
   target?: AnchorTarget
+  src?: string
+  width?: number | string
 }

@@ -1,5 +1,5 @@
 import { targetList } from "./constats"
-import { extractInitObject as extractInitialValues, extractInitObjectAnchor as extractAnchorInitialValues, getValidAttributes, getValidClasses, isNotDefined, isString, isStringTuple, makeElement, mergeAttrArray, removeFromArray, removeInvalidValues, updateAnchorElement, updateElement } from "./utils"
+import { extractInitObject as extractInitialValues, extractInitObjectAnchor as extractAnchorInitialValues, extractInitObjectImg, getValidAttributes, getValidClasses, getWidthOrHeight, isNotDefined, isString, isStringTuple, makeElement, mergeAttrArray, removeFromArray, removeInvalidValues, updateAnchorElement, updateElement, updateImgElement } from "./utils"
 
 class EasyDom implements iEasyDom {
   classNames: string[] = []
@@ -39,7 +39,6 @@ class EasyDom implements iEasyDom {
   public h5 = (): EasyDom => new EasyDom({ ...extractInitialValues(this), element: makeElement('h5') })
   public h6 = (): EasyDom => new EasyDom({ ...extractInitialValues(this), element: makeElement('h6') })
   public header = (): EasyDom => new EasyDom({ ...extractInitialValues(this), element: makeElement('header') })
-  // TODO: more support for an "img"
   public img = (): EasyDom => new EasyDom({ ...extractInitialValues(this), element: makeElement('img') })
   // TODO: more support for a "label"
   public label = (): EasyDom => new EasyDom({ ...extractInitialValues(this), element: makeElement('label') })
@@ -308,5 +307,118 @@ class EasyDomAnchor extends EasyDom implements iEasyDomAnchor  {
     }
 
     return new EasyDomAnchor({ ...extractAnchorInitialValues(this), target })
+  }
+}
+
+class EasyDomImg extends EasyDom implements iEasyDomImg {
+  alt?: string
+  height?: number
+  src?: string
+  width?: number
+
+  constructor(initialValues?: ImgInitialValues) {
+    super(initialValues)
+
+    this.alt = initialValues?.alt
+    this.element = initialValues?.element || makeElement('span')
+    this.height = initialValues?.height
+    this.src = initialValues?.src
+    this.width = initialValues?.width
+
+    // Side-effect
+    updateImgElement(this)
+  }
+
+  removeAlt = (): iEasyDomImg => {
+    if (isNotDefined(this.alt)) {
+      console.warn('alt property is already empty. The same object has been returned.')
+      return this
+    }
+
+    return new EasyDomImg({ ...extractInitObjectImg(this), alt: undefined })
+  }
+
+  removeDimension = (): iEasyDomImg => {
+    if (isNotDefined(this.height) && isNotDefined(this.width)) {
+      console.warn('height and width properties are already empty. The same object has been returned.')
+      return this
+    }
+
+    return new EasyDomImg({ ...extractInitObjectImg(this), height: undefined, width: undefined })
+  }
+
+  removeHeight = (): iEasyDomImg => {
+    if (isNotDefined(this.height)) {
+      console.warn('height property is already empty. The same object has been returned.')
+      return this
+    }
+
+    return new EasyDomImg({ ...extractInitObjectImg(this), height: undefined })
+  }
+
+  removeSrc = (): iEasyDomImg => {
+    if (isNotDefined(this.src)) {
+      console.warn('src property is already empty. The same object has been returned.')
+      return this
+    }
+
+    return new EasyDomImg({ ...extractInitObjectImg(this), src: undefined })
+  }
+
+  removeWidth = (): iEasyDomImg => {
+    if (isNotDefined(this.width)) {
+      console.warn('width property is already empty. The same object has been returned.')
+      return this
+    }
+
+    return new EasyDomImg({ ...extractInitObjectImg(this), width: undefined })
+  }
+
+  withAlt = (alt: string): iEasyDomImg => {
+    if (isNotDefined(alt)) {
+      throw new Error(`withAlt is missing an argument. Please provide a string.`)
+    }
+
+    if (!isString(alt)) {
+      throw new Error(`withAlt received the following argument: ${alt}. Please provide a string.`)
+    }
+
+    return new EasyDomImg({ ...extractInitObjectImg(this), alt })
+  }
+
+  withDimension = (dimension: Dimension): iEasyDomImg => {
+    if (isNotDefined(dimension)) {
+      throw new Error(`withDimension is missing an argument. Please provide an object with heigh and width properties.`)
+    }
+
+    return new EasyDomImg({ ...extractInitObjectImg(this), height: dimension?.height, width:  dimension?.width })
+  }
+
+  withHeight = (height: number | string): iEasyDomImg => {
+    if (isNotDefined(height)) {
+      throw new Error(`withHeight is missing an argument. Please provide a string or number.`)
+    }
+
+    return new EasyDomImg({ ...extractInitObjectImg(this), height: getWidthOrHeight(height) })
+  }
+
+  withSrc = (src: string): iEasyDomImg => {
+    if (isNotDefined(src)) {
+      throw new Error(`withSrc is missing an argument. Please provide a string.`)
+    }
+
+    if (!isString(src)) {
+      throw new Error(`withSrc received the following argument: ${src}. Please provide a string.`)
+    }
+
+    return new EasyDomImg({ ...extractInitObjectImg(this), src })
+  }
+
+  withWidth = (width: number | string): iEasyDomImg => {
+    if (isNotDefined(width)) {
+      throw new Error(`withWidth is missing an argument. Please provide a string or number.`)
+    }
+
+    return new EasyDomImg({ ...extractInitObjectImg(this), width: getWidthOrHeight(width) })
   }
 }
