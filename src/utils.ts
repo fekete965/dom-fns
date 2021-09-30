@@ -4,6 +4,8 @@ export const isNotDefined = <T>(val: T): boolean => val === undefined || val ===
 
 export const isString = <T>(val: T): boolean => typeof val === 'string'
 
+export const isNumber = <T>(val: T): boolean => typeof val === 'number' && isNaN(val) === false
+
 export const isStringTuple = (tuple: StringTuple): boolean => tuple.length === 2 && isString(tuple[0]) && isString(tuple[1])
 
 export const removeInvalidValues = (data: StringTuple[]): StringTuple[] => data.filter(d => isStringTuple(d))
