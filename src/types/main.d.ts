@@ -1,4 +1,4 @@
-type AllowedElement = 'a' | 'article' | 'aside' | 'details' | 'b' | 'br' | 'caption' | 'dialog' | 'div' | 'footer' | 'form' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'header' | 'img' | 'label' | 'li' | 'nav' | 'main' | 'ol' | 'p' | 'section' | 'span' | 'strong' | 'table' | 'tbody' | 'td' | 'tfoot' | 'th' | 'thead' | 'tr' | 'ul'
+type AllowedElement = 'a' | 'article' | 'aside' | 'details' | 'b' | 'br' | 'caption' | 'div' | 'footer' | 'form' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'header' | 'img' | 'label' | 'li' | 'nav' | 'main' | 'ol' | 'p' | 'section' | 'span' | 'strong' | 'table' | 'tbody' | 'td' | 'tfoot' | 'th' | 'thead' | 'tr' | 'ul'
 
 type ClassNames = string | string[]
 
@@ -25,6 +25,10 @@ interface ImgInitialValues extends InitialValues {
   width?: number
 }
 
+interface LabelInitialValues extends InitialValues {
+  for?: string
+}
+
 interface iDomElements {
   a(): iEasyDomAnchor
   article(): iEasyDom
@@ -33,7 +37,6 @@ interface iDomElements {
   b(): iEasyDom
   br(): iEasyDom
   caption(): iEasyDom
-  dialog(): iEasyDom
   div(): iEasyDom
   footer(): iEasyDom
   form(): iEasyDom
@@ -129,6 +132,7 @@ interface UpdateElementProps {
   element: HTMLElement | null
 
   alt?: string
+  for?: string
   height?: number | string
   href?: string
   id?: string
@@ -136,4 +140,11 @@ interface UpdateElementProps {
   target?: AnchorTarget
   src?: string
   width?: number | string
+}
+
+interface iEasyDomLabel extends iEasyDom {
+  for?: string
+
+  removeFor(): iEasyDomLabel
+  withFor(f: string): iEasyDomLabel
 }

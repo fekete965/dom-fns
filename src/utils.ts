@@ -4,11 +4,13 @@ export const isNotDefined = <T>(val: T): boolean => val === undefined || val ===
 
 export const isString = <T>(val: T): boolean => typeof val === 'string'
 
+export const isNumber = <T>(val: T): boolean => typeof val === 'number' && isNaN(val) === false
+
 export const isStringTuple = (tuple: StringTuple): boolean => tuple.length === 2 && isString(tuple[0]) && isString(tuple[1])
 
 export const removeInvalidValues = (data: StringTuple[]): StringTuple[] => data.filter(d => isStringTuple(d))
 
-export const extractInitObject = (entity: iEasyDom): InitialValues => ({
+export const extractInitialValues = (entity: iEasyDom): InitialValues => ({
   classNames: [...entity.classNames],
   // TODO: make it copy the array of array recursively
   dataAttributes: [...entity.dataAttributes],
@@ -18,7 +20,7 @@ export const extractInitObject = (entity: iEasyDom): InitialValues => ({
   innerText: entity.innerText,
 })
 
-export const extractInitObjectAnchor = (entity: iEasyDomAnchor): AnchorInitialValues => ({
+export const extractAnchorInitialValues = (entity: iEasyDomAnchor): AnchorInitialValues => ({
   classNames: [...entity.classNames],
   dataAttributes: [...entity.dataAttributes],
   element: entity.element ? makeElement(entity.element.localName as AllowedElement) : null,
@@ -28,7 +30,7 @@ export const extractInitObjectAnchor = (entity: iEasyDomAnchor): AnchorInitialVa
   target: entity?.target,
 })
 
-export const extractInitObjectImg = (entity: iEasyDomImg): ImgInitialValues => ({
+export const extractImgInitialValues = (entity: iEasyDomImg): ImgInitialValues => ({
   alt: entity.alt,
   classNames: [...entity.classNames],
   dataAttributes: [...entity.dataAttributes],
@@ -38,6 +40,15 @@ export const extractInitObjectImg = (entity: iEasyDomImg): ImgInitialValues => (
   innerText: entity.innerText,
   src: entity.src,
   width: entity.width,
+})
+
+export const extractLabelInitialValues = (entity: iEasyDomLabel): LabelInitialValues => ({
+  classNames: [...entity.classNames],
+  dataAttributes: [...entity.dataAttributes],
+  element: entity.element ? makeElement(entity.element.localName as AllowedElement) : null,
+  for: entity.for,
+  id: entity.id,
+  innerText: entity.innerText,
 })
 
 export const getWidthOrHeight = (arg: string | number): number => {
@@ -111,5 +122,15 @@ export const updateImgElement = (entity: UpdateElementProps): void => {
     height && element.setAttribute('height', height.toString())
     src && element.setAttribute('src', src)
     width && element.setAttribute('width', width.toString())
+  }
+}
+
+export const updateLabelElement = (entity: UpdateElementProps): void => {
+  const { element, for: _for } = entity
+
+  if (element) {
+    updateElement(entity)
+
+    _for && element.setAttribute('for', _for)
   }
 }
