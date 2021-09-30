@@ -40,6 +40,15 @@ export const extractInitObjectImg = (entity: iEasyDomImg): ImgInitialValues => (
   width: entity.width,
 })
 
+export const extractLabelInitialValues = (entity: iEasyDomLabel): LabelInitialValues => ({
+  classNames: [...entity.classNames],
+  dataAttributes: [...entity.dataAttributes],
+  element: entity.element ? makeElement(entity.element.localName as AllowedElement) : null,
+  for: entity.for,
+  id: entity.id,
+  innerText: entity.innerText,
+})
+
 export const getWidthOrHeight = (arg: string | number): number => {
   if (typeof arg === 'string') return parseInt(arg, 10)
   if (typeof arg === 'number') return arg
@@ -111,5 +120,15 @@ export const updateImgElement = (entity: UpdateElementProps): void => {
     height && element.setAttribute('height', height.toString())
     src && element.setAttribute('src', src)
     width && element.setAttribute('width', width.toString())
+  }
+}
+
+export const updateLabelElement = (entity: UpdateElementProps): void => {
+  const { element, for: _for } = entity
+
+  if (element) {
+    updateElement(entity)
+
+    _for && element.setAttribute('for', _for)
   }
 }

@@ -25,6 +25,10 @@ interface ImgInitialValues extends InitialValues {
   width?: number
 }
 
+interface LabelInitialValues extends InitialValues {
+  for?: string
+}
+
 interface iDomElements {
   a(): iEasyDomAnchor
   article(): iEasyDom
@@ -128,6 +132,7 @@ interface UpdateElementProps {
   element: HTMLElement | null
 
   alt?: string
+  for?: string
   height?: number | string
   href?: string
   id?: string
@@ -135,4 +140,11 @@ interface UpdateElementProps {
   target?: AnchorTarget
   src?: string
   width?: number | string
+}
+
+interface iEasyDomLabel extends iEasyDom {
+  for?: string
+
+  removeFor(): iEasyDomLabel
+  withFor(f: string): iEasyDomLabel
 }

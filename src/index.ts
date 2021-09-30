@@ -38,7 +38,6 @@ class EasyDom implements iEasyDom {
   public h6 = (): EasyDom => new EasyDom({ ...extractInitialValues(this), element: makeElement('h6') })
   public header = (): EasyDom => new EasyDom({ ...extractInitialValues(this), element: makeElement('header') })
   public img = (): EasyDom => new EasyDom({ ...extractInitialValues(this), element: makeElement('img') })
-  // TODO: more support for a "label"
   public label = (): EasyDom => new EasyDom({ ...extractInitialValues(this), element: makeElement('label') })
   public li = (): EasyDom => new EasyDom({ ...extractInitialValues(this), element: makeElement('li') })
   public nav = (): EasyDom => new EasyDom({ ...extractInitialValues(this), element: makeElement('nav') })
@@ -438,5 +437,34 @@ class EasyDomImg extends EasyDom implements iEasyDomImg {
     }
 
     return new EasyDomImg({ ...extractInitObjectImg(this), width: getWidthOrHeight(width) })
+class EasyDomLabel extends EasyDom implements iEasyDomLabel {
+  for?: string
+
+  constructor(initialValues?: LabelInitialValues) {
+    super(initialValues)
+
+    this.for = initialValues?.for
+
+    updateLabelElement(this)
+  }
+  
+  removeFor = (): iEasyDomLabel => {
+    if (isNotDefined(this.for)) {
+      console.warn('for property is already empty. The same object has been returned.')
+      return this
+    }
+    return new EasyDomLabel({ ...extractLabelInitialValues(this), for: undefined })
+  }
+
+  withFor = (value: string): iEasyDomLabel => {
+    if (isNotDefined(value)) {
+      throw new Error()
+    }
+
+    if (!isString(value)) {
+      throw new Error(`withFor received the following argument: ${value}. Please provide a string.`)
+    }
+
+    return new EasyDomLabel({ ...extractLabelInitialValues(this), for: value})
   }
 }
