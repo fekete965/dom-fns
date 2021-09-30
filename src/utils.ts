@@ -10,7 +10,7 @@ export const isStringTuple = (tuple: StringTuple): boolean => tuple.length === 2
 
 export const removeInvalidValues = (data: StringTuple[]): StringTuple[] => data.filter(d => isStringTuple(d))
 
-export const extractInitObject = (entity: iEasyDom): InitialValues => ({
+export const extractInitialValues = (entity: iEasyDom): InitialValues => ({
   classNames: [...entity.classNames],
   // TODO: make it copy the array of array recursively
   dataAttributes: [...entity.dataAttributes],
@@ -20,7 +20,7 @@ export const extractInitObject = (entity: iEasyDom): InitialValues => ({
   innerText: entity.innerText,
 })
 
-export const extractInitObjectAnchor = (entity: iEasyDomAnchor): AnchorInitialValues => ({
+export const extractAnchorInitialValues = (entity: iEasyDomAnchor): AnchorInitialValues => ({
   classNames: [...entity.classNames],
   dataAttributes: [...entity.dataAttributes],
   element: entity.element ? makeElement(entity.element.localName as AllowedElement) : null,
@@ -30,7 +30,7 @@ export const extractInitObjectAnchor = (entity: iEasyDomAnchor): AnchorInitialVa
   target: entity?.target,
 })
 
-export const extractInitObjectImg = (entity: iEasyDomImg): ImgInitialValues => ({
+export const extractImgInitialValues = (entity: iEasyDomImg): ImgInitialValues => ({
   alt: entity.alt,
   classNames: [...entity.classNames],
   dataAttributes: [...entity.dataAttributes],
