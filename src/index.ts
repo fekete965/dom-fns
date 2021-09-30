@@ -26,8 +26,6 @@ class EasyDom implements iEasyDom {
   public b = (): EasyDom => new EasyDom({ ...extractInitialValues(this), element: makeElement('b') })
   public br = (): EasyDom => new EasyDom({ ...extractInitialValues(this), element: makeElement('br') })
   public caption = (): EasyDom => new EasyDom({ ...extractInitialValues(this), element: makeElement('caption') })
-  // TODO: more support for "dialog"
-  public dialog = (): EasyDom => new EasyDom({ ...extractInitialValues(this), element: makeElement('dialog') })
   public div = (): EasyDom => new EasyDom({ ...extractInitialValues(this), element: makeElement('div') })
   public footer = (): EasyDom => new EasyDom({ ...extractInitialValues(this), element: makeElement('footer') })
   // TODO: more support for "form"
