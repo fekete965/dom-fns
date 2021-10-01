@@ -1,4 +1,4 @@
-import { allowedElementList } from "./constats"
+import { allowedElementList, methodList, targetList } from "./constats"
 
 export const isNotDefined = <T>(val: T): boolean => val === undefined || val === null
 
@@ -7,6 +7,10 @@ export const isString = <T>(val: T): boolean => typeof val === 'string'
 export const isNumber = <T>(val: T): boolean => typeof val === 'number' && isNaN(val) === false
 
 export const isStringTuple = (tuple: StringTuple): boolean => tuple.length === 2 && isString(tuple[0]) && isString(tuple[1])
+
+export const isValidTarget = (anchorTarget: Target): boolean => targetList.findIndex(t => t === anchorTarget) === -1
+
+export const isValidMethod = (method: Method): boolean => methodList.findIndex(m => m === method) === -1
 
 export const removeInvalidValues = (data: StringTuple[]): StringTuple[] => data.filter(d => isStringTuple(d))
 
@@ -27,7 +31,7 @@ export const extractAnchorInitialValues = (entity: iEasyDomAnchor): AnchorInitia
   href: entity?.href,
   id: entity.id,
   innerText: entity.innerText,
-  target: entity?.target,
+  anchorTarget: entity?.anchorTarget,
 })
 
 export const extractImgInitialValues = (entity: iEasyDomImg): ImgInitialValues => ({
@@ -49,6 +53,18 @@ export const extractLabelInitialValues = (entity: iEasyDomLabel): LabelInitialVa
   for: entity.for,
   id: entity.id,
   innerText: entity.innerText,
+})
+
+export const extractFormInitialValues = (entity: iEasyDomForm): FormInitialValues => ({
+  action: entity.action,
+  classNames: [...entity.classNames],
+  dataAttributes: [...entity.dataAttributes],
+  element: entity.element ? makeElement(entity.element.localName as AllowedElement) : null,
+  id: entity.id,
+  innerText: entity.innerText,
+  method: entity.method,
+  name: entity.name,
+  formTarget: entity.formTarget,
 })
 
 export const getWidthOrHeight = (arg: string | number): number => {
@@ -102,13 +118,13 @@ export const updateElement = (props: UpdateElementProps): void => {
 }
 
 export const updateAnchorElement = (entity: UpdateElementProps): void => {
-  const { element, href, target } = entity
+  const { element, href, anchorTarget } = entity
 
   if (element) {
     updateElement(entity)
 
     href && element.setAttribute('href', href)
-    target && element.setAttribute('target', target)
+    anchorTarget && element.setAttribute('target', anchorTarget)
   }
 }
 
@@ -132,5 +148,16 @@ export const updateLabelElement = (entity: UpdateElementProps): void => {
     updateElement(entity)
 
     _for && element.setAttribute('for', _for)
+  }
+}
+
+export const updateFormElement = (entity: UpdateElementProps): void => {
+  const { element, action, method, name, formTarget } = entity
+
+  if (element) {
+    action && element.setAttribute('action', action)
+    method && element.setAttribute('method', method)
+    name && element.setAttribute('name', name)
+    formTarget && element.setAttribute('target', formTarget)
   }
 }

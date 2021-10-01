@@ -15,7 +15,7 @@ interface InitialValues {
 
 interface AnchorInitialValues extends InitialValues {
   href?: string
-  target?: AnchorTarget
+  anchorTarget?: Target
 } 
 
 interface ImgInitialValues extends InitialValues {
@@ -27,6 +27,13 @@ interface ImgInitialValues extends InitialValues {
 
 interface LabelInitialValues extends InitialValues {
   for?: string
+}
+
+interface FormInitialValues extends InitialValues {
+  action?: string
+  method?: Method
+  name?: string
+  formTarget?: Target
 }
 
 interface iDomElements {
@@ -91,16 +98,16 @@ interface iEasyDom extends iDomElements {
   withInnerText(innerText: string, concat: boolean = false): iEasyDom
 }
 
-type AnchorTarget = '_self' | '_blank' | '_parent' | '_top'
+type Target = '_self' | '_blank' | '_parent' | '_top'
 
 interface iEasyDomAnchor extends iEasyDom {
   href?: string
-  target?: AnchorTarget
+  anchorTarget?: Target
 
   removeHref(): iEasyDomAnchor
   removeTarget(): iEasyDomAnchor
   withHref(href: string): iEasyDomAnchor
-  withTarget(target: AnchorTarget): iEasyDomAnchor
+  withTarget(anchorTarget: Target): iEasyDomAnchor
 }
 
 interface Dimension {
@@ -131,13 +138,17 @@ interface UpdateElementProps {
   dataAttributes: StringTuple[]
   element: HTMLElement | null
 
+  action?: string
+  method?: Method
+  name?: string
   alt?: string
   for?: string
   height?: number | string
   href?: string
   id?: string
   innerText?: string
-  target?: AnchorTarget
+  formTarget?: Target
+  anchorTarget?: Target
   src?: string
   width?: number | string
 }
@@ -147,4 +158,22 @@ interface iEasyDomLabel extends iEasyDom {
 
   removeFor(): iEasyDomLabel
   withFor(f: string): iEasyDomLabel
+}
+
+type Method = 'dialog' | 'get' | 'post'
+
+interface iEasyDomForm extends iEasyDom {
+  action?: string
+  method?: Method
+  name?: string
+  formTarget?: Target
+
+  removeAction(): iEasyDom
+  removeMethod(): iEasyDom
+  removeName(): iEasyDom
+  removeTarget(): iEasyDom
+  withAction(action: string): iEasyDom
+  withMethod(method: Method): iEasyDom
+  withName(name: string): iEasyDom
+  withTarget(formTarget: Target): iEasyDom
 }

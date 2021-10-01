@@ -1,5 +1,5 @@
 import { targetList } from "./constats"
-import { extractInitialValues as extractInitialValues, extractAnchorInitialValues as extractAnchorInitialValues, extractImgInitialValues, extractLabelInitialValues, getValidAttributes, getValidClasses, getWidthOrHeight, isNotDefined, isNumber, isString, isStringTuple, makeElement, mergeAttrArray, removeFromArray, removeInvalidValues, updateAnchorElement, updateElement, updateImgElement, updateLabelElement } from "./utils"
+import { extractInitialValues as extractInitialValues, extractAnchorInitialValues as extractAnchorInitialValues, extractImgInitialValues, extractLabelInitialValues, getValidAttributes, getValidClasses, getWidthOrHeight, isNotDefined, isNumber, isString, isStringTuple, makeElement, mergeAttrArray, removeFromArray, removeInvalidValues, updateAnchorElement, updateElement, updateImgElement, updateLabelElement, updateFormElement, extractFormInitialValues, isValidTarget, isValidMethod } from "./utils"
 
 class EasyDom implements iEasyDom {
   classNames: string[] = []
@@ -272,13 +272,13 @@ class EasyDom implements iEasyDom {
 
 class EasyDomAnchor extends EasyDom implements iEasyDomAnchor {
   href?: string
-  target?: AnchorTarget
+  anchorTarget?: Target
 
   constructor(initialValues?: AnchorInitialValues) {
     super(initialValues)
 
     this.href = initialValues?.href
-    this.target = initialValues?.target
+    this.anchorTarget = initialValues?.anchorTarget
     this.element = initialValues?.element || makeElement('a')
 
     updateAnchorElement(this)
@@ -294,12 +294,12 @@ class EasyDomAnchor extends EasyDom implements iEasyDomAnchor {
   }
 
   removeTarget = (): iEasyDomAnchor => {
-    if (isNotDefined(this.target)) {
-      console.warn('target property is already empty. The same object has been returned.')
+    if (isNotDefined(this.anchorTarget)) {
+      console.warn('anchorTarget property is already empty. The same object has been returned.')
       return this
     }
 
-    return new EasyDomAnchor({ ...extractAnchorInitialValues(this), target: undefined })
+    return new EasyDomAnchor({ ...extractAnchorInitialValues(this), anchorTarget: undefined })
   }
 
   withHref = (href: string): iEasyDomAnchor => {
@@ -314,16 +314,20 @@ class EasyDomAnchor extends EasyDom implements iEasyDomAnchor {
     return new EasyDomAnchor({ ...extractAnchorInitialValues(this), href })
   }
 
-  withTarget = (target: AnchorTarget): iEasyDomAnchor => {
-    if (isNotDefined(target)) {
+  withTarget = (anchorTarget: Target): iEasyDomAnchor => {
+    if (isNotDefined(anchorTarget)) {
       throw new Error(`withTarget is missing an argument. Please provide a string.`)
     }
 
-    if (targetList.findIndex(t => t === target) === -1) {
+    if (!isString(anchorTarget)) {
+      throw new Error(`withTarget received the following argument: ${anchorTarget}. Please provide a string.`)
+    }
+
+    if (isValidTarget(anchorTarget)) {
       throw new Error(`withTarget only accepts the following arguments: '_self', '_blank', '_parent', '_top'`)
     }
 
-    return new EasyDomAnchor({ ...extractAnchorInitialValues(this), target })
+    return new EasyDomAnchor({ ...extractAnchorInitialValues(this), anchorTarget })
   }
 }
 
@@ -476,6 +480,113 @@ class EasyDomLabel extends EasyDom implements iEasyDomLabel {
       throw new Error(`withFor received the following argument: ${value}. Please provide a string.`)
     }
 
-    return new EasyDomLabel({ ...extractLabelInitialValues(this), for: value})
+    return new EasyDomLabel({ ...extractLabelInitialValues(this), for: value })
   }
+}
+
+export class EasyDomForm extends EasyDom implements iEasyDomForm {
+  action?: string
+  method?: Method
+  name?: string
+  formTarget?: Target
+
+  constructor(initialValues?: FormInitialValues) {
+    super(initialValues)
+
+    this.action = initialValues?.action
+    this.method = initialValues?.method
+    this.name = initialValues?.name
+    this.formTarget = initialValues?.formTarget
+
+    updateFormElement(this)
+  }
+   
+  removeAction = (): iEasyDom => {
+    if (isNotDefined(this.action)) {
+      console.warn('action property is already empty. The same object has been returned.')
+      return this
+    }
+    return new EasyDomForm({ ...extractFormInitialValues(this), action: undefined })
+  }
+ 
+  removeMethod = (): iEasyDom => {
+    if (isNotDefined(this.method)) {
+      console.warn('method property is already empty. The same object has been returned.')
+      return this
+    }
+    return new EasyDomForm({ ...extractFormInitialValues(this), method: undefined })
+  }
+ 
+  removeName = (): iEasyDom => {
+    if (isNotDefined(this.name)) {
+      console.warn('name property is already empty. The same object has been returned.')
+      return this
+    }
+    return new EasyDomForm({ ...extractFormInitialValues(this), name: undefined })
+  }
+ 
+  removeTarget = (): iEasyDom => {
+    if (isNotDefined(this.formTarget)) {
+      console.warn('formTarget property is already empty. The same object has been returned.')
+      return this
+    }
+    return new EasyDomForm({ ...extractFormInitialValues(this), formTarget: undefined })
+  }
+
+  withAction = (action: string): iEasyDom => {
+    if (isNotDefined(action)) {
+      throw new Error()
+    }
+
+    if (!isString(action)) {
+      throw new Error(`withAction received the following argument: ${action}. Please provide a string.`)
+    }
+
+    return new EasyDomForm({ ...extractFormInitialValues(this), action })
+  }
+
+  withMethod = (method: Method): iEasyDom => {
+    if (isNotDefined(method)) {
+      throw new Error()
+    }
+
+    if (!isString(method)) {
+      throw new Error(`withMethod received the following argument: ${method}. Please provide a string.`)
+    }
+
+    if (isValidMethod(method)) {
+      throw new Error(`withMethod only accepts the following arguments: 'dialog', 'get', 'post'`)
+    }
+
+    return new EasyDomForm({ ...extractFormInitialValues(this), method })
+  }
+
+  withName = (name: string): iEasyDom => {
+    if (isNotDefined(name)) {
+      throw new Error()
+    }
+
+    if (!isString(name)) {
+      throw new Error(`withName received the following argument: ${name}. Please provide a string.`)
+    }
+
+    return new EasyDomForm({ ...extractFormInitialValues(this), name })
+  }
+
+  withTarget = (formTarget: Target): iEasyDom => {
+    if (isNotDefined(formTarget)) {
+      throw new Error()
+    }
+
+    if (!isString(formTarget)) {
+      throw new Error(`withTarget received the following argument: ${formTarget}. Please provide a string.`)
+    }
+
+    if (isValidTarget(formTarget)) {
+      throw new Error(`withTarget only accepts the following arguments: '_self', '_blank', '_parent', '_top'`)
+    }
+
+    return new EasyDomForm({ ...extractFormInitialValues(this), formTarget })
+  }
+
 }
