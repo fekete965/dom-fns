@@ -19,7 +19,7 @@ export const extractInitialValues = (entity: iEasyDom): InitialValues => ({
   // TODO: make it copy the array of array recursively
   dataAttributes: [...entity.dataAttributes],
   // TODO: find a better way doing this ---> user nodeName to determine the element type!!!
-  element: entity.element ? makeElement(entity.element.localName as AllowedElement) : null,
+  // element: entity.element ? makeElement(entity.element.localName as AllowedElement) : null,
   id: entity.id,
   innerText: entity.innerText,
 })
@@ -27,7 +27,6 @@ export const extractInitialValues = (entity: iEasyDom): InitialValues => ({
 export const extractAnchorInitialValues = (entity: iEasyDomAnchor): AnchorInitialValues => ({
   classNames: [...entity.classNames],
   dataAttributes: [...entity.dataAttributes],
-  element: entity.element ? makeElement(entity.element.localName as AllowedElement) : null,
   href: entity?.href,
   id: entity.id,
   innerText: entity.innerText,
@@ -38,7 +37,6 @@ export const extractImgInitialValues = (entity: iEasyDomImg): ImgInitialValues =
   alt: entity.alt,
   classNames: [...entity.classNames],
   dataAttributes: [...entity.dataAttributes],
-  element: entity.element ? makeElement(entity.element.localName as AllowedElement) : null,
   height: entity.height,
   id: entity.id,
   innerText: entity.innerText,
@@ -49,7 +47,6 @@ export const extractImgInitialValues = (entity: iEasyDomImg): ImgInitialValues =
 export const extractLabelInitialValues = (entity: iEasyDomLabel): LabelInitialValues => ({
   classNames: [...entity.classNames],
   dataAttributes: [...entity.dataAttributes],
-  element: entity.element ? makeElement(entity.element.localName as AllowedElement) : null,
   for: entity.for,
   id: entity.id,
   innerText: entity.innerText,
@@ -59,7 +56,6 @@ export const extractFormInitialValues = (entity: iEasyDomForm): FormInitialValue
   action: entity.action,
   classNames: [...entity.classNames],
   dataAttributes: [...entity.dataAttributes],
-  element: entity.element ? makeElement(entity.element.localName as AllowedElement) : null,
   id: entity.id,
   innerText: entity.innerText,
   method: entity.method,
@@ -112,7 +108,7 @@ export const updateElement = (props: UpdateElementProps): void => {
   if (element) {
     id && element.setAttribute("id", id)
     innerText && element.setAttribute("innerText", innerText)
-    classNames.forEach(c => element.classList.add(c))
+    element.classList.add(...classNames.join(','))
     dataAttributes.forEach(([key, data]) => element.setAttribute(`data-${key}`, data))
   }
 }
