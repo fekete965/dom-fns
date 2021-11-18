@@ -60,58 +60,52 @@ export const mergeAttrArray = (attrArray: StringTuple[], newAttr: StringTuple): 
   return Object.assign([], attrArray, { [index]: newAttr })
 }
 
-export const updateElement = (props: UpdateElementProps): void => {
-  const { classNames, dataAttributes, element, id, innerText } = props
+export const updateElement = (props: InitialValues, element?: HTMLElement): void => {
+  const {
+    classNames,
+    dataAttributes,
+    action,
+    method,
+    name,
+    alt,
+    for: _for,
+    height,
+    href,
+    id,
+    innerText,
+    formTarget,
+    anchorTarget,
+    src,
+    width,
+  } = props
 
   if (element) {
     id && element.setAttribute("id", id)
     innerText && element.setAttribute("innerText", innerText)
     element.classList.add(...classNames.join(','))
     dataAttributes.forEach(([key, data]) => element.setAttribute(`data-${key}`, data))
-  }
-}
 
-export const updateAnchorElement = (entity: UpdateElementProps): void => {
-  const { element, href, anchorTarget } = entity
+    if (element.nodeName.toLowerCase() === 'a') {
+      href && element.setAttribute('href', href)
+      anchorTarget && element.setAttribute('target', anchorTarget)
+    }
 
-  if (element) {
-    updateElement(entity)
+    if (element.nodeName.toLowerCase() === 'img') {
+      alt && element.setAttribute('alt', alt)
+      height && element.setAttribute('height', height.toString())
+      src && element.setAttribute('src', src)
+      width && element.setAttribute('width', width.toString())
+    }
 
-    href && element.setAttribute('href', href)
-    anchorTarget && element.setAttribute('target', anchorTarget)
-  }
-}
+    if (element.nodeName.toLowerCase() === 'label') {
+      _for && element.setAttribute('for', _for)
+    }
 
-export const updateImgElement = (entity: UpdateElementProps): void => {
-  const { alt, element, height, src, width } = entity
-
-  if (element) {
-    updateElement(entity)
-    
-    alt && element.setAttribute('alt', alt)
-    height && element.setAttribute('height', height.toString())
-    src && element.setAttribute('src', src)
-    width && element.setAttribute('width', width.toString())
-  }
-}
-
-export const updateLabelElement = (entity: UpdateElementProps): void => {
-  const { element, for: _for } = entity
-
-  if (element) {
-    updateElement(entity)
-
-    _for && element.setAttribute('for', _for)
-  }
-}
-
-export const updateFormElement = (entity: UpdateElementProps): void => {
-  const { element, action, method, name, formTarget } = entity
-
-  if (element) {
-    action && element.setAttribute('action', action)
-    method && element.setAttribute('method', method)
-    name && element.setAttribute('name', name)
-    formTarget && element.setAttribute('target', formTarget)
+    if (element.nodeName.toLowerCase() === 'form') {
+      action && element.setAttribute('action', action)
+      method && element.setAttribute('method', method)
+      name && element.setAttribute('name', name)
+      formTarget && element.setAttribute('target', formTarget)
+    }
   }
 }
