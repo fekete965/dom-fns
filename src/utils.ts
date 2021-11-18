@@ -14,57 +14,11 @@ export const isValidMethod = (method: Method): boolean => methodList.findIndex(m
 
 export const removeInvalidValues = (data: StringTuple[]): StringTuple[] => data.filter(d => isStringTuple(d))
 
-export const extractInitialValues = (entity: iEasyDom): InitialValues => ({
-  classNames: [...entity.classNames],
-  // TODO: make it copy the array of array recursively
-  dataAttributes: [...entity.dataAttributes],
-  // TODO: find a better way doing this ---> user nodeName to determine the element type!!!
-  element: entity.element ? makeElement(entity.element.localName as AllowedElement) : null,
-  id: entity.id,
-  innerText: entity.innerText,
-})
-
-export const extractAnchorInitialValues = (entity: iEasyDomAnchor): AnchorInitialValues => ({
-  classNames: [...entity.classNames],
-  dataAttributes: [...entity.dataAttributes],
-  element: entity.element ? makeElement(entity.element.localName as AllowedElement) : null,
-  href: entity?.href,
-  id: entity.id,
-  innerText: entity.innerText,
-  anchorTarget: entity?.anchorTarget,
-})
-
-export const extractImgInitialValues = (entity: iEasyDomImg): ImgInitialValues => ({
-  alt: entity.alt,
-  classNames: [...entity.classNames],
-  dataAttributes: [...entity.dataAttributes],
-  element: entity.element ? makeElement(entity.element.localName as AllowedElement) : null,
-  height: entity.height,
-  id: entity.id,
-  innerText: entity.innerText,
-  src: entity.src,
-  width: entity.width,
-})
-
-export const extractLabelInitialValues = (entity: iEasyDomLabel): LabelInitialValues => ({
-  classNames: [...entity.classNames],
-  dataAttributes: [...entity.dataAttributes],
-  element: entity.element ? makeElement(entity.element.localName as AllowedElement) : null,
-  for: entity.for,
-  id: entity.id,
-  innerText: entity.innerText,
-})
-
-export const extractFormInitialValues = (entity: iEasyDomForm): FormInitialValues => ({
-  action: entity.action,
-  classNames: [...entity.classNames],
-  dataAttributes: [...entity.dataAttributes],
-  element: entity.element ? makeElement(entity.element.localName as AllowedElement) : null,
-  id: entity.id,
-  innerText: entity.innerText,
-  method: entity.method,
-  name: entity.name,
-  formTarget: entity.formTarget,
+export const copyInitialValues = (entity: InitialValues): InitialValues => ({
+  ...Object.assign({}, entity, {
+    classNames: [...entity.classNames],
+    dataAttributes: [...entity.dataAttributes.map(tuple => tuple.slice())],
+  })
 })
 
 export const getWidthOrHeight = (arg: string | number): number => {
@@ -106,58 +60,52 @@ export const mergeAttrArray = (attrArray: StringTuple[], newAttr: StringTuple): 
   return Object.assign([], attrArray, { [index]: newAttr })
 }
 
-export const updateElement = (props: UpdateElementProps): void => {
-  const { classNames, dataAttributes, element, id, innerText } = props
+export const updateElement = (props: InitialValues, element?: HTMLElement): void => {
+  const {
+    classNames,
+    dataAttributes,
+    action,
+    method,
+    name,
+    alt,
+    for: _for,
+    height,
+    href,
+    id,
+    innerText,
+    formTarget,
+    anchorTarget,
+    src,
+    width,
+  } = props
 
   if (element) {
     id && element.setAttribute("id", id)
     innerText && element.setAttribute("innerText", innerText)
-    classNames.forEach(c => element.classList.add(c))
+    element.classList.add(...classNames.join(','))
     dataAttributes.forEach(([key, data]) => element.setAttribute(`data-${key}`, data))
-  }
-}
 
-export const updateAnchorElement = (entity: UpdateElementProps): void => {
-  const { element, href, anchorTarget } = entity
+    if (element.nodeName.toLowerCase() === 'a') {
+      href && element.setAttribute('href', href)
+      anchorTarget && element.setAttribute('target', anchorTarget)
+    }
 
-  if (element) {
-    updateElement(entity)
+    if (element.nodeName.toLowerCase() === 'img') {
+      alt && element.setAttribute('alt', alt)
+      height && element.setAttribute('height', height.toString())
+      src && element.setAttribute('src', src)
+      width && element.setAttribute('width', width.toString())
+    }
 
-    href && element.setAttribute('href', href)
-    anchorTarget && element.setAttribute('target', anchorTarget)
-  }
-}
+    if (element.nodeName.toLowerCase() === 'label') {
+      _for && element.setAttribute('for', _for)
+    }
 
-export const updateImgElement = (entity: UpdateElementProps): void => {
-  const { alt, element, height, src, width } = entity
-
-  if (element) {
-    updateElement(entity)
-    
-    alt && element.setAttribute('alt', alt)
-    height && element.setAttribute('height', height.toString())
-    src && element.setAttribute('src', src)
-    width && element.setAttribute('width', width.toString())
-  }
-}
-
-export const updateLabelElement = (entity: UpdateElementProps): void => {
-  const { element, for: _for } = entity
-
-  if (element) {
-    updateElement(entity)
-
-    _for && element.setAttribute('for', _for)
-  }
-}
-
-export const updateFormElement = (entity: UpdateElementProps): void => {
-  const { element, action, method, name, formTarget } = entity
-
-  if (element) {
-    action && element.setAttribute('action', action)
-    method && element.setAttribute('method', method)
-    name && element.setAttribute('name', name)
-    formTarget && element.setAttribute('target', formTarget)
+    if (element.nodeName.toLowerCase() === 'form') {
+      action && element.setAttribute('action', action)
+      method && element.setAttribute('method', method)
+      name && element.setAttribute('name', name)
+      formTarget && element.setAttribute('target', formTarget)
+    }
   }
 }
