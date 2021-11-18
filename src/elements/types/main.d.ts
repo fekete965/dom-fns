@@ -16,10 +16,22 @@ interface Dimension {
 }
 
 interface InitialValues {
-  classNames?: ClassNames
-  dataAttributes: DataAttributes
+  classNames: string[]
+  dataAttributes: StringTuple[]
+
+  action?: string
+  method?: Method
+  name?: string
+  alt?: string
+  for?: string
+  height?: number
+  href?: string
   id?: string
   innerText?: string
+  formTarget?: Target
+  anchorTarget?: Target
+  src?: string
+  width?: number
 }
 
 interface iDomElements {
@@ -63,6 +75,7 @@ interface iDomElements {
 interface iEasyDom extends iDomElements {
   classNames: string[]
   dataAttributes: StringTuple[]
+  element: HTMLElement | null
 
   id?: string
   innerText?: string
@@ -82,24 +95,3 @@ interface iEasyDom extends iDomElements {
   withId(id: String): iEasyDom
   withInnerText(innerText: string, concat: boolean = false): iEasyDom
 }
-
-interface UpdateElementProps {
-  classNames: string[]
-  dataAttributes: StringTuple[]
-  element: HTMLElement | null
-
-  action?: string
-  method?: Method
-  name?: string
-  alt?: string
-  for?: string
-  height?: number | string
-  href?: string
-  id?: string
-  innerText?: string
-  formTarget?: Target
-  anchorTarget?: Target
-  src?: string
-  width?: number | string
-}
-

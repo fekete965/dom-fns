@@ -1,9 +1,10 @@
 import { targetList } from "../constats"
 import { EasyDom } from "./base"
-import { extractLabelInitialValues, isNotDefined, isString, makeElement, updateLabelElement } from "../utils"
+import { copyInitialValues, isNotDefined, isString, makeElement, updateElement } from "../utils"
 
 export class EasyDomLabel extends EasyDom implements iEasyDomLabel {
   element: HTMLElement
+  
   for?: string
 
   constructor(initialValues?: LabelInitialValues) {
@@ -12,7 +13,7 @@ export class EasyDomLabel extends EasyDom implements iEasyDomLabel {
     this.element = makeElement('label')
     this.for = initialValues?.for
 
-    updateLabelElement(this)
+    updateElement(this)
   }
   
   removeFor = (): iEasyDomLabel => {
@@ -20,7 +21,7 @@ export class EasyDomLabel extends EasyDom implements iEasyDomLabel {
       console.warn('for property is already empty. The same object has been returned.')
       return this
     }
-    return new EasyDomLabel({ ...extractLabelInitialValues(this), for: undefined })
+    return new EasyDomLabel({ ...copyInitialValues(this), for: undefined })
   }
 
   withFor = (value: string): iEasyDomLabel => {
@@ -32,6 +33,6 @@ export class EasyDomLabel extends EasyDom implements iEasyDomLabel {
       throw new Error(`withFor received the following argument: ${value}. Please provide a string.`)
     }
 
-    return new EasyDomLabel({ ...extractLabelInitialValues(this), for: value })
+    return new EasyDomLabel({ ...copyInitialValues(this), for: value })
   }
 }

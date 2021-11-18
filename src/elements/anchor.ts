@@ -1,9 +1,10 @@
-import { extractAnchorInitialValues as extractAnchorInitialValues,  isNotDefined, isString, makeElement, updateAnchorElement, isValidTarget } from "../utils"
+import { copyInitialValues, isNotDefined, isString, makeElement, updateElement, isValidTarget } from "../utils"
 import { EasyDom } from "./base"
 
 export class EasyDomAnchor extends EasyDom implements iEasyDomAnchor {
-  anchorTarget?: Target
   element: HTMLElement
+  
+  anchorTarget?: Target
   href?: string
 
   constructor(initialValues?: AnchorInitialValues) {
@@ -13,7 +14,7 @@ export class EasyDomAnchor extends EasyDom implements iEasyDomAnchor {
     this.anchorTarget = initialValues?.anchorTarget
     this.element = makeElement('a')
 
-    updateAnchorElement(this)
+    updateElement(this)
   }
 
   removeHref = (): iEasyDomAnchor => {
@@ -22,7 +23,7 @@ export class EasyDomAnchor extends EasyDom implements iEasyDomAnchor {
       return this
     }
     
-    return new EasyDomAnchor({ ...extractAnchorInitialValues(this), href: undefined })
+    return new EasyDomAnchor({ ...copyInitialValues(this), href: undefined })
   }
 
   removeTarget = (): iEasyDomAnchor => {
@@ -31,7 +32,7 @@ export class EasyDomAnchor extends EasyDom implements iEasyDomAnchor {
       return this
     }
 
-    return new EasyDomAnchor({ ...extractAnchorInitialValues(this), anchorTarget: undefined })
+    return new EasyDomAnchor({ ...copyInitialValues(this), anchorTarget: undefined })
   }
 
   withHref = (href: string): iEasyDomAnchor => {
@@ -43,7 +44,7 @@ export class EasyDomAnchor extends EasyDom implements iEasyDomAnchor {
       throw new Error(`withHref received the following argument: ${href}. Please provide a string.`)
     }
 
-    return new EasyDomAnchor({ ...extractAnchorInitialValues(this), href })
+    return new EasyDomAnchor({ ...copyInitialValues(this), href })
   }
 
   withTarget = (anchorTarget: Target): iEasyDomAnchor => {
@@ -59,6 +60,6 @@ export class EasyDomAnchor extends EasyDom implements iEasyDomAnchor {
       throw new Error(`withTarget only accepts the following arguments: '_self', '_blank', '_parent', '_top'`)
     }
 
-    return new EasyDomAnchor({ ...extractAnchorInitialValues(this), anchorTarget })
+    return new EasyDomAnchor({ ...copyInitialValues(this), anchorTarget })
   }
 }

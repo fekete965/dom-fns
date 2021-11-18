@@ -1,5 +1,5 @@
 import { EasyDomAnchor } from "./anchor"
-import { extractInitialValues as extractInitialValues, getValidAttributes, getValidClasses, isNotDefined, isString, isStringTuple, makeElement, mergeAttrArray, removeFromArray, removeInvalidValues, updateElement } from "../utils"
+import { copyInitialValues, getValidAttributes, getValidClasses, isNotDefined, isString, isStringTuple, mergeAttrArray, removeFromArray, removeInvalidValues, updateElement } from "../utils"
 import { EasyDomForm } from "./form"
 
 export class EasyDom implements iEasyDom {
@@ -20,41 +20,41 @@ export class EasyDom implements iEasyDom {
     updateElement(this)
   }
 
-  public a = (): EasyDomAnchor => new EasyDomAnchor(this)
-  public article = (): EasyDom => new EasyDom(this)
-  public aside = (): EasyDom => new EasyDom(this)
-  public details = (): EasyDom => new EasyDom(this)
-  public b = (): EasyDom => new EasyDom(this)
-  public br = (): EasyDom => new EasyDom(this)
-  public caption = (): EasyDom => new EasyDom(this)
-  public div = (): EasyDom => new EasyDom(this)
-  public footer = (): EasyDom => new EasyDom(this)
-  public form = (): EasyDomForm => new EasyDomForm(this)
-  public h1 = (): EasyDom => new EasyDom(this)
-  public h2 = (): EasyDom => new EasyDom(this)
-  public h3 = (): EasyDom => new EasyDom(this)
-  public h4 = (): EasyDom => new EasyDom(this)
-  public h5 = (): EasyDom => new EasyDom(this)
-  public h6 = (): EasyDom => new EasyDom(this)
-  public header = (): EasyDom => new EasyDom(this)
-  public img = (): EasyDom => new EasyDom(this)
-  public label = (): EasyDom => new EasyDom(this)
-  public li = (): EasyDom => new EasyDom(this)
-  public nav = (): EasyDom => new EasyDom(this)
-  public main = (): EasyDom => new EasyDom(this)
-  public ol = (): EasyDom => new EasyDom(this)
-  public p = (): EasyDom => new EasyDom(this)
-  public section = (): EasyDom => new EasyDom(this)
-  public span = (): EasyDom => new EasyDom(this)
-  public strong = (): EasyDom => new EasyDom(this)
-  public table = (): EasyDom => new EasyDom(this)
-  public tbody = (): EasyDom => new EasyDom(this)
-  public td = (): EasyDom => new EasyDom(this)
-  public tfoot = (): EasyDom => new EasyDom(this)
-  public th = (): EasyDom => new EasyDom(this)
-  public thead = (): EasyDom => new EasyDom(this)
-  public tr = (): EasyDom => new EasyDom(this)
-  public ul = (): EasyDom => new EasyDom(this)
+  public a = (): EasyDomAnchor => new EasyDomAnchor(copyInitialValues(this))
+  public article = (): EasyDom => new EasyDom(copyInitialValues(this))
+  public aside = (): EasyDom => new EasyDom(copyInitialValues(this))
+  public details = (): EasyDom => new EasyDom(copyInitialValues(this))
+  public b = (): EasyDom => new EasyDom(copyInitialValues(this))
+  public br = (): EasyDom => new EasyDom(copyInitialValues(this))
+  public caption = (): EasyDom => new EasyDom(copyInitialValues(this))
+  public div = (): EasyDom => new EasyDom(copyInitialValues(this))
+  public footer = (): EasyDom => new EasyDom(copyInitialValues(this))
+  public form = (): EasyDomForm => new EasyDomForm(copyInitialValues(this))
+  public h1 = (): EasyDom => new EasyDom(copyInitialValues(this))
+  public h2 = (): EasyDom => new EasyDom(copyInitialValues(this))
+  public h3 = (): EasyDom => new EasyDom(copyInitialValues(this))
+  public h4 = (): EasyDom => new EasyDom(copyInitialValues(this))
+  public h5 = (): EasyDom => new EasyDom(copyInitialValues(this))
+  public h6 = (): EasyDom => new EasyDom(copyInitialValues(this))
+  public header = (): EasyDom => new EasyDom(copyInitialValues(this))
+  public img = (): EasyDom => new EasyDom(copyInitialValues(this))
+  public label = (): EasyDom => new EasyDom(copyInitialValues(this))
+  public li = (): EasyDom => new EasyDom(copyInitialValues(this))
+  public nav = (): EasyDom => new EasyDom(copyInitialValues(this))
+  public main = (): EasyDom => new EasyDom(copyInitialValues(this))
+  public ol = (): EasyDom => new EasyDom(copyInitialValues(this))
+  public p = (): EasyDom => new EasyDom(copyInitialValues(this))
+  public section = (): EasyDom => new EasyDom(copyInitialValues(this))
+  public span = (): EasyDom => new EasyDom(copyInitialValues(this))
+  public strong = (): EasyDom => new EasyDom(copyInitialValues(this))
+  public table = (): EasyDom => new EasyDom(copyInitialValues(this))
+  public tbody = (): EasyDom => new EasyDom(copyInitialValues(this))
+  public td = (): EasyDom => new EasyDom(copyInitialValues(this))
+  public tfoot = (): EasyDom => new EasyDom(copyInitialValues(this))
+  public th = (): EasyDom => new EasyDom(copyInitialValues(this))
+  public thead = (): EasyDom => new EasyDom(copyInitialValues(this))
+  public tr = (): EasyDom => new EasyDom(copyInitialValues(this))
+  public ul = (): EasyDom => new EasyDom(copyInitialValues(this))
 
   public withClass = (classNames: ClassNames): EasyDom => {
     if (isNotDefined(classNames)) {
@@ -62,7 +62,7 @@ export class EasyDom implements iEasyDom {
     }
 
     if (typeof classNames === 'string') {
-      return new EasyDom({ ...extractInitialValues(this), classNames: [...this.classNames, classNames] })  
+      return new EasyDom({ ...copyInitialValues(this), classNames: [...this.classNames, classNames] })  
     }
 
     if (Array.isArray(classNames)) {
@@ -71,10 +71,10 @@ export class EasyDom implements iEasyDom {
       if (nextClassName !== undefined) {
         const classNamesRemainder = classNames.slice(1)
 
-        return new EasyDom({ ...extractInitialValues(this), classNames: [...this.classNames, nextClassName] }).withClass(classNamesRemainder)
+        return new EasyDom({ ...copyInitialValues(this), classNames: [...this.classNames, nextClassName] }).withClass(classNamesRemainder)
       }
 
-      return new EasyDom({ ...extractInitialValues(this) })
+      return new EasyDom({ ...copyInitialValues(this) })
     }
 
     throw new Error(`Unsupported argument passed to withClass: ${classNames}`)
@@ -97,14 +97,14 @@ export class EasyDom implements iEasyDom {
         const classNameRemainder = classNames.slice(1)
         const newClassNames = removeFromArray(this.classNames, removableClassName)
 
-        return new EasyDom({ ...extractInitialValues(this), classNames: newClassNames }).removeClass(classNameRemainder) 
+        return new EasyDom({ ...copyInitialValues(this), classNames: newClassNames }).removeClass(classNameRemainder) 
       }
       
-      return new EasyDom({ ...extractInitialValues(this) })
+      return new EasyDom({ ...copyInitialValues(this) })
     }
 
     if (typeof classNames === 'string') {
-      return new EasyDom({ ...extractInitialValues(this), classNames: removeFromArray<string>(this.classNames, classNames) })
+      return new EasyDom({ ...copyInitialValues(this), classNames: removeFromArray<string>(this.classNames, classNames) })
     }
 
     throw new Error(`Unsupported argument passed to removeClass: ${classNames}`)
@@ -116,7 +116,7 @@ export class EasyDom implements iEasyDom {
       return this
     }
 
-    return new EasyDom({ ...extractInitialValues(this), classNames: [] })
+    return new EasyDom({ ...copyInitialValues(this), classNames: [] })
   }
 
   public withId = (id: string): EasyDom => {
@@ -128,7 +128,7 @@ export class EasyDom implements iEasyDom {
       throw new Error(`withId received the following argument: ${id}. Please provide a string.`)
     }
 
-    return new EasyDom({ ...extractInitialValues(this), id })
+    return new EasyDom({ ...copyInitialValues(this), id })
   }
 
   public removeId = (): EasyDom => {
@@ -137,7 +137,7 @@ export class EasyDom implements iEasyDom {
       return this
     }
 
-    return new EasyDom({ ...extractInitialValues(this), id: undefined })
+    return new EasyDom({ ...copyInitialValues(this), id: undefined })
   }
 
   public withDataAttribute = (data: DataAttributes): EasyDom => {
@@ -146,7 +146,7 @@ export class EasyDom implements iEasyDom {
     }
 
     if (!Array.isArray(data[0]) && isStringTuple(data as StringTuple)) {
-      return new EasyDom({ ...extractInitialValues(this), dataAttributes: mergeAttrArray(this.dataAttributes, data as StringTuple) })  
+      return new EasyDom({ ...copyInitialValues(this), dataAttributes: mergeAttrArray(this.dataAttributes, data as StringTuple) })  
     }
 
     if (Array.isArray(data[0])) {
@@ -156,14 +156,14 @@ export class EasyDom implements iEasyDom {
       if (nextData !== undefined) {
         const dataRemainder = data.slice(1) as StringTuple[]
         
-        return new EasyDom({ ...extractInitialValues(this), dataAttributes: mergeAttrArray(this.dataAttributes, nextData) }).withDataAttribute(dataRemainder)
+        return new EasyDom({ ...copyInitialValues(this), dataAttributes: mergeAttrArray(this.dataAttributes, nextData) }).withDataAttribute(dataRemainder)
       }
       
-      return new EasyDom({ ...extractInitialValues(this) })
+      return new EasyDom({ ...copyInitialValues(this) })
     }
 
     if (Array.isArray(data) && data.length === 0) {
-      return new EasyDom({ ...extractInitialValues(this) })
+      return new EasyDom({ ...copyInitialValues(this) })
     }
 
     throw new Error(`Unsupported argument passed to withDataAttribute: ${data}`)
@@ -185,7 +185,7 @@ export class EasyDom implements iEasyDom {
       return this
     }
 
-    return new EasyDom({ ...extractInitialValues(this), dataAttributes: newDataAttributes })
+    return new EasyDom({ ...copyInitialValues(this), dataAttributes: newDataAttributes })
   }
 
   public removeAllDataAttributes = (): EasyDom => {
@@ -194,7 +194,7 @@ export class EasyDom implements iEasyDom {
       return this
     }
 
-    return new EasyDom({ ... extractInitialValues(this), dataAttributes: [] })
+    return new EasyDom({ ... copyInitialValues(this), dataAttributes: [] })
   }
 
   public withInnerText = (innerText: string, concat: boolean = false): EasyDom => {
@@ -207,7 +207,7 @@ export class EasyDom implements iEasyDom {
     }
 
     const _innerText = concat ? this.innerText + innerText : innerText
-    return new EasyDom({ ...extractInitialValues(this), innerText: _innerText })
+    return new EasyDom({ ...copyInitialValues(this), innerText: _innerText })
   }
 
   public removeInnerText = (): EasyDom => {
@@ -216,10 +216,10 @@ export class EasyDom implements iEasyDom {
       return this
     }
 
-    return new EasyDom({ ...extractInitialValues(this), innerText: undefined })
+    return new EasyDom({ ...copyInitialValues(this), innerText: undefined })
   }
 
-  public copy = (initObj?: InitialValues): EasyDom => new EasyDom({ ...extractInitialValues(this), ...(initObj ? initObj : null) })
+  public copy = (initObj?: InitialValues): EasyDom => new EasyDom({ ...copyInitialValues(this), ...(initObj ? initObj : null) })
 
   public appendTo = (query: string): EasyDom => {
     if (isNotDefined(query)) {
@@ -267,5 +267,5 @@ export class EasyDom implements iEasyDom {
     return this
   }
 
-  public make = (): EasyDom => new EasyDom({ ...extractInitialValues(this) })
+  public make = (): EasyDom => new EasyDom({ ...copyInitialValues(this) })
 }

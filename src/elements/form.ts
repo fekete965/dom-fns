@@ -1,9 +1,10 @@
 import { EasyDom } from "./base"
-import { isNotDefined, isString, makeElement,  updateFormElement, extractFormInitialValues, isValidTarget, isValidMethod } from "../utils"
+import { isNotDefined, isString, makeElement,  updateElement, copyInitialValues, isValidTarget, isValidMethod } from "../utils"
 
 export class EasyDomForm extends EasyDom implements iEasyDomForm {
-  action?: string
   element: HTMLElement
+  
+  action?: string
   formTarget?: Target
   method?: Method
   name?: string
@@ -17,7 +18,7 @@ export class EasyDomForm extends EasyDom implements iEasyDomForm {
     this.method = initialValues?.method
     this.name = initialValues?.name
 
-    updateFormElement(this)
+    updateElement(this)
   }
    
   removeAction = (): iEasyDom => {
@@ -25,7 +26,7 @@ export class EasyDomForm extends EasyDom implements iEasyDomForm {
       console.warn('action property is already empty. The same object has been returned.')
       return this
     }
-    return new EasyDomForm({ ...extractFormInitialValues(this), action: undefined })
+    return new EasyDomForm({ ...copyInitialValues(this), action: undefined })
   }
  
   removeMethod = (): iEasyDom => {
@@ -33,7 +34,7 @@ export class EasyDomForm extends EasyDom implements iEasyDomForm {
       console.warn('method property is already empty. The same object has been returned.')
       return this
     }
-    return new EasyDomForm({ ...extractFormInitialValues(this), method: undefined })
+    return new EasyDomForm({ ...copyInitialValues(this), method: undefined })
   }
  
   removeName = (): iEasyDom => {
@@ -41,7 +42,7 @@ export class EasyDomForm extends EasyDom implements iEasyDomForm {
       console.warn('name property is already empty. The same object has been returned.')
       return this
     }
-    return new EasyDomForm({ ...extractFormInitialValues(this), name: undefined })
+    return new EasyDomForm({ ...copyInitialValues(this), name: undefined })
   }
  
   removeTarget = (): iEasyDom => {
@@ -49,7 +50,7 @@ export class EasyDomForm extends EasyDom implements iEasyDomForm {
       console.warn('formTarget property is already empty. The same object has been returned.')
       return this
     }
-    return new EasyDomForm({ ...extractFormInitialValues(this), formTarget: undefined })
+    return new EasyDomForm({ ...copyInitialValues(this), formTarget: undefined })
   }
 
   withAction = (action: string): iEasyDom => {
@@ -61,7 +62,7 @@ export class EasyDomForm extends EasyDom implements iEasyDomForm {
       throw new Error(`withAction received the following argument: ${action}. Please provide a string.`)
     }
 
-    return new EasyDomForm({ ...extractFormInitialValues(this), action })
+    return new EasyDomForm({ ...copyInitialValues(this), action })
   }
 
   withMethod = (method: Method): iEasyDom => {
@@ -77,7 +78,7 @@ export class EasyDomForm extends EasyDom implements iEasyDomForm {
       throw new Error(`withMethod only accepts the following arguments: 'dialog', 'get', 'post'`)
     }
 
-    return new EasyDomForm({ ...extractFormInitialValues(this), method })
+    return new EasyDomForm({ ...copyInitialValues(this), method })
   }
 
   withName = (name: string): iEasyDom => {
@@ -89,7 +90,7 @@ export class EasyDomForm extends EasyDom implements iEasyDomForm {
       throw new Error(`withName received the following argument: ${name}. Please provide a string.`)
     }
 
-    return new EasyDomForm({ ...extractFormInitialValues(this), name })
+    return new EasyDomForm({ ...copyInitialValues(this), name })
   }
 
   withTarget = (formTarget: Target): iEasyDom => {
@@ -105,7 +106,7 @@ export class EasyDomForm extends EasyDom implements iEasyDomForm {
       throw new Error(`withTarget only accepts the following arguments: '_self', '_blank', '_parent', '_top'`)
     }
 
-    return new EasyDomForm({ ...extractFormInitialValues(this), formTarget })
+    return new EasyDomForm({ ...copyInitialValues(this), formTarget })
   }
 
 }

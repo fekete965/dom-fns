@@ -14,53 +14,11 @@ export const isValidMethod = (method: Method): boolean => methodList.findIndex(m
 
 export const removeInvalidValues = (data: StringTuple[]): StringTuple[] => data.filter(d => isStringTuple(d))
 
-export const extractInitialValues = (entity: iEasyDom): InitialValues => ({
-  classNames: [...entity.classNames],
-  // TODO: make it copy the array of array recursively
-  dataAttributes: [...entity.dataAttributes],
-  // TODO: find a better way doing this ---> user nodeName to determine the element type!!!
-  // element: entity.element ? makeElement(entity.element.localName as AllowedElement) : null,
-  id: entity.id,
-  innerText: entity.innerText,
-})
-
-export const extractAnchorInitialValues = (entity: iEasyDomAnchor): AnchorInitialValues => ({
-  classNames: [...entity.classNames],
-  dataAttributes: [...entity.dataAttributes],
-  href: entity?.href,
-  id: entity.id,
-  innerText: entity.innerText,
-  anchorTarget: entity?.anchorTarget,
-})
-
-export const extractImgInitialValues = (entity: iEasyDomImg): ImgInitialValues => ({
-  alt: entity.alt,
-  classNames: [...entity.classNames],
-  dataAttributes: [...entity.dataAttributes],
-  height: entity.height,
-  id: entity.id,
-  innerText: entity.innerText,
-  src: entity.src,
-  width: entity.width,
-})
-
-export const extractLabelInitialValues = (entity: iEasyDomLabel): LabelInitialValues => ({
-  classNames: [...entity.classNames],
-  dataAttributes: [...entity.dataAttributes],
-  for: entity.for,
-  id: entity.id,
-  innerText: entity.innerText,
-})
-
-export const extractFormInitialValues = (entity: iEasyDomForm): FormInitialValues => ({
-  action: entity.action,
-  classNames: [...entity.classNames],
-  dataAttributes: [...entity.dataAttributes],
-  id: entity.id,
-  innerText: entity.innerText,
-  method: entity.method,
-  name: entity.name,
-  formTarget: entity.formTarget,
+export const copyInitialValues = (entity: InitialValues): InitialValues => ({
+  ...Object.assign({}, entity, {
+    classNames: [...entity.classNames],
+    dataAttributes: [...entity.dataAttributes.map(tuple => tuple.slice())],
+  })
 })
 
 export const getWidthOrHeight = (arg: string | number): number => {
