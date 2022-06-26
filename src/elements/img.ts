@@ -1,125 +1,175 @@
-import { copyInitialValues, getWidthOrHeight, isNotDefined, isNumber, isString, makeElement, updateElement } from "../utils"
-import { EasyDom } from "./base"
+import {
+  copyInitialValues,
+  getWidthOrHeight,
+  isNotDefined,
+  isNumber,
+  isString,
+  makeElement,
+  updateElement,
+} from "../utils";
+import { DomFns } from "./base";
 
-export class EasyDomImg extends EasyDom implements iEasyDomImg {
-  element: HTMLElement
-  
-  alt?: string
-  height?: number
-  src?: string
-  width?: number
+export class DomFnsImg extends DomFns implements iDomFnsImg {
+  element: HTMLElement;
+
+  alt?: string;
+  height?: number;
+  src?: string;
+  width?: number;
 
   constructor(initialValues?: ImgInitialValues) {
-    super(initialValues)
+    super(initialValues);
 
-    this.alt = initialValues?.alt
-    this.element = makeElement('span')
-    this.height = initialValues?.height
-    this.src = initialValues?.src
-    this.width = initialValues?.width
+    this.alt = initialValues?.alt;
+    this.element = makeElement("span");
+    this.height = initialValues?.height;
+    this.src = initialValues?.src;
+    this.width = initialValues?.width;
 
     // Side-effect
-    updateElement(this)
+    updateElement(this);
   }
 
-  removeAlt = (): iEasyDomImg => {
+  removeAlt = (): iDomFnsImg => {
     if (isNotDefined(this.alt)) {
-      console.warn('alt property is already empty. The same object has been returned.')
-      return this
+      console.warn(
+        "alt property is already empty. The same object has been returned."
+      );
+      return this;
     }
 
-    return new EasyDomImg({ ...copyInitialValues(this), alt: undefined })
-  }
+    return new DomFnsImg({ ...copyInitialValues(this), alt: undefined });
+  };
 
-  removeDimension = (): iEasyDomImg => {
+  removeDimension = (): iDomFnsImg => {
     if (isNotDefined(this.height) && isNotDefined(this.width)) {
-      console.warn('height and width properties are already empty. The same object has been returned.')
-      return this
+      console.warn(
+        "height and width properties are already empty. The same object has been returned."
+      );
+      return this;
     }
 
-    return new EasyDomImg({ ...copyInitialValues(this), height: undefined, width: undefined })
-  }
+    return new DomFnsImg({
+      ...copyInitialValues(this),
+      height: undefined,
+      width: undefined,
+    });
+  };
 
-  removeHeight = (): iEasyDomImg => {
+  removeHeight = (): iDomFnsImg => {
     if (isNotDefined(this.height)) {
-      console.warn('height property is already empty. The same object has been returned.')
-      return this
+      console.warn(
+        "height property is already empty. The same object has been returned."
+      );
+      return this;
     }
 
-    return new EasyDomImg({ ...copyInitialValues(this), height: undefined })
-  }
+    return new DomFnsImg({ ...copyInitialValues(this), height: undefined });
+  };
 
-  removeSrc = (): iEasyDomImg => {
+  removeSrc = (): iDomFnsImg => {
     if (isNotDefined(this.src)) {
-      console.warn('src property is already empty. The same object has been returned.')
-      return this
+      console.warn(
+        "src property is already empty. The same object has been returned."
+      );
+      return this;
     }
 
-    return new EasyDomImg({ ...copyInitialValues(this), src: undefined })
-  }
+    return new DomFnsImg({ ...copyInitialValues(this), src: undefined });
+  };
 
-  removeWidth = (): iEasyDomImg => {
+  removeWidth = (): iDomFnsImg => {
     if (isNotDefined(this.width)) {
-      console.warn('width property is already empty. The same object has been returned.')
-      return this
+      console.warn(
+        "width property is already empty. The same object has been returned."
+      );
+      return this;
     }
 
-    return new EasyDomImg({ ...copyInitialValues(this), width: undefined })
-  }
+    return new DomFnsImg({ ...copyInitialValues(this), width: undefined });
+  };
 
-  withAlt = (alt: string): iEasyDomImg => {
+  withAlt = (alt: string): iDomFnsImg => {
     if (isNotDefined(alt)) {
-      throw new Error(`withAlt is missing an argument. Please provide a string.`)
+      throw new Error(
+        `withAlt is missing an argument. Please provide a string.`
+      );
     }
 
     if (!isString(alt)) {
-      throw new Error(`withAlt received the following argument: ${alt}. Please provide a string.`)
+      throw new Error(
+        `withAlt received the following argument: ${alt}. Please provide a string.`
+      );
     }
 
-    return new EasyDomImg({ ...copyInitialValues(this), alt })
-  }
+    return new DomFnsImg({ ...copyInitialValues(this), alt });
+  };
 
-  withDimension = (dimension: Dimension): iEasyDomImg => {
+  withDimension = (dimension: Dimension): iDomFnsImg => {
     if (isNotDefined(dimension)) {
-      throw new Error(`withDimension is missing an argument. Please provide an object with heigh and width properties.`)
+      throw new Error(
+        `withDimension is missing an argument. Please provide an object with heigh and width properties.`
+      );
     }
 
-    return new EasyDomImg({ ...copyInitialValues(this), height: dimension?.height, width:  dimension?.width })
-  }
+    return new DomFnsImg({
+      ...copyInitialValues(this),
+      height: dimension?.height,
+      width: dimension?.width,
+    });
+  };
 
-  withHeight = (height: number | string): iEasyDomImg => {
+  withHeight = (height: number | string): iDomFnsImg => {
     if (isNotDefined(height)) {
-      throw new Error(`withHeight is missing an argument. Please provide a string or number.`)
+      throw new Error(
+        `withHeight is missing an argument. Please provide a string or number.`
+      );
     }
 
     if (isString(height) || isNumber(height)) {
-      return new EasyDomImg({ ...copyInitialValues(this), height: getWidthOrHeight(height) })
+      return new DomFnsImg({
+        ...copyInitialValues(this),
+        height: getWidthOrHeight(height),
+      });
     }
 
-    throw new Error(`withWidth received the following argument: ${height}. Please provide a string.`)
-  }
+    throw new Error(
+      `withWidth received the following argument: ${height}. Please provide a string.`
+    );
+  };
 
-  withSrc = (src: string): iEasyDomImg => {
+  withSrc = (src: string): iDomFnsImg => {
     if (isNotDefined(src)) {
-      throw new Error(`withSrc is missing an argument. Please provide a string.`)
+      throw new Error(
+        `withSrc is missing an argument. Please provide a string.`
+      );
     }
 
     if (!isString(src)) {
-      throw new Error(`withSrc received the following argument: ${src}. Please provide a string.`)
+      throw new Error(
+        `withSrc received the following argument: ${src}. Please provide a string.`
+      );
     }
 
-    return new EasyDomImg({ ...copyInitialValues(this), src })
-  }
+    return new DomFnsImg({ ...copyInitialValues(this), src });
+  };
 
-  withWidth = (width: number | string): iEasyDomImg => {
+  withWidth = (width: number | string): iDomFnsImg => {
     if (isNotDefined(width)) {
-      throw new Error(`withWidth is missing an argument. Please provide a string or number.`)
+      throw new Error(
+        `withWidth is missing an argument. Please provide a string or number.`
+      );
     }
 
     if (isString(width) || isNumber(width)) {
-      return new EasyDomImg({ ...copyInitialValues(this), width: getWidthOrHeight(width) })
+      return new DomFnsImg({
+        ...copyInitialValues(this),
+        width: getWidthOrHeight(width),
+      });
     }
-    
-    throw new Error(`withWidth received the following argument: ${width}. Please provide a string.`)
-  }
+
+    throw new Error(
+      `withWidth received the following argument: ${width}. Please provide a string.`
+    );
+  };
 }

@@ -1,112 +1,142 @@
-import { EasyDom } from "./base"
-import { isNotDefined, isString, makeElement,  updateElement, copyInitialValues, isValidTarget, isValidMethod } from "../utils"
+import { DomFns } from "./base";
+import {
+  isNotDefined,
+  isString,
+  makeElement,
+  updateElement,
+  copyInitialValues,
+  isValidTarget,
+  isValidMethod,
+} from "../utils";
 
-export class EasyDomForm extends EasyDom implements iEasyDomForm {
-  element: HTMLElement
-  
-  action?: string
-  formTarget?: Target
-  method?: Method
-  name?: string
+export class DomFnsForm extends DomFns implements iDomFnsForm {
+  element: HTMLElement;
+
+  action?: string;
+  formTarget?: Target;
+  method?: Method;
+  name?: string;
 
   constructor(initialValues?: FormInitialValues) {
-    super(initialValues)
+    super(initialValues);
 
-    this.action = initialValues?.action
-    this.element = makeElement('form')
-    this.formTarget = initialValues?.formTarget
-    this.method = initialValues?.method
-    this.name = initialValues?.name
+    this.action = initialValues?.action;
+    this.element = makeElement("form");
+    this.formTarget = initialValues?.formTarget;
+    this.method = initialValues?.method;
+    this.name = initialValues?.name;
 
-    updateElement(this)
+    updateElement(this);
   }
-   
-  removeAction = (): iEasyDom => {
+
+  removeAction = (): iDomFns => {
     if (isNotDefined(this.action)) {
-      console.warn('action property is already empty. The same object has been returned.')
-      return this
+      console.warn(
+        "action property is already empty. The same object has been returned."
+      );
+      return this;
     }
-    return new EasyDomForm({ ...copyInitialValues(this), action: undefined })
-  }
- 
-  removeMethod = (): iEasyDom => {
-    if (isNotDefined(this.method)) {
-      console.warn('method property is already empty. The same object has been returned.')
-      return this
-    }
-    return new EasyDomForm({ ...copyInitialValues(this), method: undefined })
-  }
- 
-  removeName = (): iEasyDom => {
-    if (isNotDefined(this.name)) {
-      console.warn('name property is already empty. The same object has been returned.')
-      return this
-    }
-    return new EasyDomForm({ ...copyInitialValues(this), name: undefined })
-  }
- 
-  removeTarget = (): iEasyDom => {
-    if (isNotDefined(this.formTarget)) {
-      console.warn('formTarget property is already empty. The same object has been returned.')
-      return this
-    }
-    return new EasyDomForm({ ...copyInitialValues(this), formTarget: undefined })
-  }
+    return new DomFnsForm({ ...copyInitialValues(this), action: undefined });
+  };
 
-  withAction = (action: string): iEasyDom => {
+  removeMethod = (): iDomFns => {
+    if (isNotDefined(this.method)) {
+      console.warn(
+        "method property is already empty. The same object has been returned."
+      );
+      return this;
+    }
+    return new DomFnsForm({ ...copyInitialValues(this), method: undefined });
+  };
+
+  removeName = (): iDomFns => {
+    if (isNotDefined(this.name)) {
+      console.warn(
+        "name property is already empty. The same object has been returned."
+      );
+      return this;
+    }
+    return new DomFnsForm({ ...copyInitialValues(this), name: undefined });
+  };
+
+  removeTarget = (): iDomFns => {
+    if (isNotDefined(this.formTarget)) {
+      console.warn(
+        "formTarget property is already empty. The same object has been returned."
+      );
+      return this;
+    }
+    return new DomFnsForm({
+      ...copyInitialValues(this),
+      formTarget: undefined,
+    });
+  };
+
+  withAction = (action: string): iDomFns => {
     if (isNotDefined(action)) {
-      throw new Error()
+      throw new Error();
     }
 
     if (!isString(action)) {
-      throw new Error(`withAction received the following argument: ${action}. Please provide a string.`)
+      throw new Error(
+        `withAction received the following argument: ${action}. Please provide a string.`
+      );
     }
 
-    return new EasyDomForm({ ...copyInitialValues(this), action })
-  }
+    return new DomFnsForm({ ...copyInitialValues(this), action });
+  };
 
-  withMethod = (method: Method): iEasyDom => {
+  withMethod = (method: Method): iDomFns => {
     if (isNotDefined(method)) {
-      throw new Error()
+      throw new Error();
     }
 
     if (!isString(method)) {
-      throw new Error(`withMethod received the following argument: ${method}. Please provide a string.`)
+      throw new Error(
+        `withMethod received the following argument: ${method}. Please provide a string.`
+      );
     }
 
     if (isValidMethod(method)) {
-      throw new Error(`withMethod only accepts the following arguments: 'dialog', 'get', 'post'`)
+      throw new Error(
+        `withMethod only accepts the following arguments: 'dialog', 'get', 'post'`
+      );
     }
 
-    return new EasyDomForm({ ...copyInitialValues(this), method })
-  }
+    return new DomFnsForm({ ...copyInitialValues(this), method });
+  };
 
-  withName = (name: string): iEasyDom => {
+  withName = (name: string): iDomFns => {
     if (isNotDefined(name)) {
-      throw new Error()
+      throw new Error();
     }
 
     if (!isString(name)) {
-      throw new Error(`withName received the following argument: ${name}. Please provide a string.`)
+      throw new Error(
+        `withName received the following argument: ${name}. Please provide a string.`
+      );
     }
 
-    return new EasyDomForm({ ...copyInitialValues(this), name })
-  }
+    return new DomFnsForm({ ...copyInitialValues(this), name });
+  };
 
-  withTarget = (formTarget: Target): iEasyDom => {
+  withTarget = (formTarget: Target): iDomFns => {
     if (isNotDefined(formTarget)) {
-      throw new Error()
+      throw new Error();
     }
 
     if (!isString(formTarget)) {
-      throw new Error(`withTarget received the following argument: ${formTarget}. Please provide a string.`)
+      throw new Error(
+        `withTarget received the following argument: ${formTarget}. Please provide a string.`
+      );
     }
 
     if (isValidTarget(formTarget)) {
-      throw new Error(`withTarget only accepts the following arguments: '_self', '_blank', '_parent', '_top'`)
+      throw new Error(
+        `withTarget only accepts the following arguments: '_self', '_blank', '_parent', '_top'`
+      );
     }
 
-    return new EasyDomForm({ ...copyInitialValues(this), formTarget })
-  }
-
+    return new DomFnsForm({ ...copyInitialValues(this), formTarget });
+  };
 }

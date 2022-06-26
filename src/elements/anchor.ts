@@ -1,7 +1,7 @@
 import { copyInitialValues, isNotDefined, isString, makeElement, updateElement, isValidTarget } from "../utils"
-import { EasyDom } from "./base"
+import { DomFns } from "./base"
 
-export class EasyDomAnchor extends EasyDom implements iEasyDomAnchor {
+export class DomFnsAnchor extends DomFns implements iDomFnsAnchor {
   element: HTMLElement
   
   anchorTarget?: Target
@@ -17,25 +17,25 @@ export class EasyDomAnchor extends EasyDom implements iEasyDomAnchor {
     updateElement(this)
   }
 
-  removeHref = (): iEasyDomAnchor => {
+  removeHref = (): iDomFnsAnchor => {
     if (isNotDefined(this.href)) {
       console.warn('href property is already empty. The same object has been returned.')
       return this
     }
     
-    return new EasyDomAnchor({ ...copyInitialValues(this), href: undefined })
+    return new DomFnsAnchor({ ...copyInitialValues(this), href: undefined })
   }
 
-  removeTarget = (): iEasyDomAnchor => {
+  removeTarget = (): iDomFnsAnchor => {
     if (isNotDefined(this.anchorTarget)) {
       console.warn('anchorTarget property is already empty. The same object has been returned.')
       return this
     }
 
-    return new EasyDomAnchor({ ...copyInitialValues(this), anchorTarget: undefined })
+    return new DomFnsAnchor({ ...copyInitialValues(this), anchorTarget: undefined })
   }
 
-  withHref = (href: string): iEasyDomAnchor => {
+  withHref = (href: string): iDomFnsAnchor => {
     if (isNotDefined(href)) {
       throw new Error(`withHref is missing an argument. Please provide a string.`)
     }
@@ -44,10 +44,10 @@ export class EasyDomAnchor extends EasyDom implements iEasyDomAnchor {
       throw new Error(`withHref received the following argument: ${href}. Please provide a string.`)
     }
 
-    return new EasyDomAnchor({ ...copyInitialValues(this), href })
+    return new DomFnsAnchor({ ...copyInitialValues(this), href })
   }
 
-  withTarget = (anchorTarget: Target): iEasyDomAnchor => {
+  withTarget = (anchorTarget: Target): iDomFnsAnchor => {
     if (isNotDefined(anchorTarget)) {
       throw new Error(`withTarget is missing an argument. Please provide a string.`)
     }
@@ -60,6 +60,6 @@ export class EasyDomAnchor extends EasyDom implements iEasyDomAnchor {
       throw new Error(`withTarget only accepts the following arguments: '_self', '_blank', '_parent', '_top'`)
     }
 
-    return new EasyDomAnchor({ ...copyInitialValues(this), anchorTarget })
+    return new DomFnsAnchor({ ...copyInitialValues(this), anchorTarget })
   }
 }

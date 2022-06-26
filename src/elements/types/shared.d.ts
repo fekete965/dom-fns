@@ -1,6 +1,6 @@
-interface SharedElementInitialValues extends InitialValues { }
+interface SharedElementInitialValues extends InitialValues {}
 
-interface iEasyDomSharedElement extends iEasyDom {
-  appendTo(query: string): iEasyDom
-  prependTo(query: string): iEasyDom
+interface iDomFnsSharedElement extends iDomFns {
+  appendTo(query: string): iDomFns;
+  prependTo(query: string): iDomFns;
 }

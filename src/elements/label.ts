@@ -1,38 +1,48 @@
-import { targetList } from "../constats"
-import { EasyDom } from "./base"
-import { copyInitialValues, isNotDefined, isString, makeElement, updateElement } from "../utils"
+import { targetList } from "../constats";
+import { DomFns } from "./base";
+import {
+  copyInitialValues,
+  isNotDefined,
+  isString,
+  makeElement,
+  updateElement,
+} from "../utils";
 
-export class EasyDomLabel extends EasyDom implements iEasyDomLabel {
-  element: HTMLElement
-  
-  for?: string
+export class DomFnsLabel extends DomFns implements iDomFnsLabel {
+  element: HTMLElement;
+
+  for?: string;
 
   constructor(initialValues?: LabelInitialValues) {
-    super(initialValues)
+    super(initialValues);
 
-    this.element = makeElement('label')
-    this.for = initialValues?.for
+    this.element = makeElement("label");
+    this.for = initialValues?.for;
 
-    updateElement(this)
+    updateElement(this);
   }
-  
-  removeFor = (): iEasyDomLabel => {
+
+  removeFor = (): iDomFnsLabel => {
     if (isNotDefined(this.for)) {
-      console.warn('for property is already empty. The same object has been returned.')
-      return this
+      console.warn(
+        "for property is already empty. The same object has been returned."
+      );
+      return this;
     }
-    return new EasyDomLabel({ ...copyInitialValues(this), for: undefined })
-  }
+    return new DomFnsLabel({ ...copyInitialValues(this), for: undefined });
+  };
 
-  withFor = (value: string): iEasyDomLabel => {
+  withFor = (value: string): iDomFnsLabel => {
     if (isNotDefined(value)) {
-      throw new Error()
+      throw new Error();
     }
 
     if (!isString(value)) {
-      throw new Error(`withFor received the following argument: ${value}. Please provide a string.`)
+      throw new Error(
+        `withFor received the following argument: ${value}. Please provide a string.`
+      );
     }
 
-    return new EasyDomLabel({ ...copyInitialValues(this), for: value })
-  }
+    return new DomFnsLabel({ ...copyInitialValues(this), for: value });
+  };
 }

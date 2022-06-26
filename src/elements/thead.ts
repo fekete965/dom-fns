@@ -1,13 +1,13 @@
-import { makeElement, updateElement } from "../utils"
-import { EasyDom } from "./base"
+import { makeElement, updateElement } from "../utils";
+import { DomFns } from "./base";
 
-export class EasyDomTableHeaders extends EasyDom implements iEasyDomSharedElement {
-  element: HTMLElement
+export class DomFnsTableHeaders extends DomFns implements iDomFnsSharedElement {
+  element: HTMLElement;
 
   constructor(initialValues?: SharedElementInitialValues) {
-    super(initialValues)
-    this.element = makeElement('thead')
+    super(initialValues);
+    this.element = makeElement("thead");
 
-    updateElement(this)
+    updateElement(this);
   }
 }
