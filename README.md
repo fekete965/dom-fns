@@ -1,3 +1,3 @@
-# easy-dom
+# dom-fns
 
-easy-dom is a simple utility you can use to create DOM elements with specific attributes on it
+dom-fns is a simple utility you can use to create DOM elements with specific attributes on it
