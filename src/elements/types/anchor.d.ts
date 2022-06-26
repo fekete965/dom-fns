@@ -1,14 +1,14 @@
 interface AnchorInitialValues extends InitialValues {
-  href?: string
-  anchorTarget?: Target
-} 
+  href?: string;
+  anchorTarget?: Target;
+}
 
-interface iEasyDomAnchor extends iEasyDom {
-  href?: string
-  anchorTarget?: Target
+interface iDomFnsAnchor extends iDomFns {
+  href?: string;
+  anchorTarget?: Target;
 
-  removeHref(): iEasyDomAnchor
-  removeTarget(): iEasyDomAnchor
-  withHref(href: string): iEasyDomAnchor
-  withTarget(anchorTarget: Target): iEasyDomAnchor
+  removeHref(): iDomFnsAnchor;
+  removeTarget(): iDomFnsAnchor;
+  withHref(href: string): iDomFnsAnchor;
+  withTarget(anchorTarget: Target): iDomFnsAnchor;
 }

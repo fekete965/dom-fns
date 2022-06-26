@@ -1,10 +1,10 @@
 interface LabelInitialValues extends InitialValues {
-  for?: string
+  for?: string;
 }
 
-interface iEasyDomLabel extends iEasyDom {
-  for?: string
+interface iDomFnsLabel extends iDomFns {
+  for?: string;
 
-  removeFor(): iEasyDomLabel
-  withFor(f: string): iEasyDomLabel
+  removeFor(): iDomFnsLabel;
+  withFor(f: string): iDomFnsLabel;
 }

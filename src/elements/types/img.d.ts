@@ -1,24 +1,24 @@
 interface ImgInitialValues extends InitialValues {
-  alt?: string
-  height?: number
-  src?: string
-  width?: number
+  alt?: string;
+  height?: number;
+  src?: string;
+  width?: number;
 }
 
-interface iEasyDomImg extends iEasyDom {
-  alt?: string
-  height?: number
-  src?: string
-  width?: number
+interface iDomFnsImg extends iDomFns {
+  alt?: string;
+  height?: number;
+  src?: string;
+  width?: number;
 
-  removeAlt(): iEasyDomImg
-  removeDimension(): iEasyDomImg
-  removeHeight(): iEasyDomImg
-  removeSrc(): iEasyDomImg
-  removeWidth(): iEasyDomImg
-  withAlt(alt: string): iEasyDomImg
-  withDimension(dimension: Dimension): iEasyDomImg
-  withHeight(height: number): iEasyDomImg
-  withSrc(alt: string): iEasyDomImg
-  withWidth(width: number): iEasyDomImg
+  removeAlt(): iDomFnsImg;
+  removeDimension(): iDomFnsImg;
+  removeHeight(): iDomFnsImg;
+  removeSrc(): iDomFnsImg;
+  removeWidth(): iDomFnsImg;
+  withAlt(alt: string): iDomFnsImg;
+  withDimension(dimension: Dimension): iDomFnsImg;
+  withHeight(height: number): iDomFnsImg;
+  withSrc(alt: string): iDomFnsImg;
+  withWidth(width: number): iDomFnsImg;
 }
